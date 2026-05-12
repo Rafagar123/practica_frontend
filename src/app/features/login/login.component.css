@@ -6,7 +6,27 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 .errorClass {
   color: red;
   margin-top: 1em;
 }
+
+.login-button {
+  margin-top: 1em;
+  padding: 0.3em 1em;
+  font-size: 1em;
+  background-color: rgb(0, 64, 255);
+  color: blanchedalmond;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+  .login-button:hover {
+    background-color: rgb(102, 130, 215);
+  }
+  .login-button:active {
+    background-color: rgb(0, 64, 255);
+  }
