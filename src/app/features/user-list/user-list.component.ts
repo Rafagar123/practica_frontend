@@ -40,13 +40,38 @@ export class UserListComponent implements OnInit {
       console.log('Usuarios:', response);
 
       this.usuarios = response;
+      await this.cargarDirecciones();
 
     } catch (error) {
       console.error('Error real:', error);
     }
   }
 
-  async obtenerDireccionPrincipal(usuarioId: number): Promise<string | null> {
+async cargarDirecciones() {
+  const nick = localStorage.getItem('nickUsuario') || '';
+  const pass = localStorage.getItem('contrasena') || '';
+
+  const requests = this.usuarios.map(u =>
+    this.userService.obtenerDireccionPrincipal(u.id, nick, pass)
+  );
+
+  const resultados = await Promise.all(requests);
+
+  this.usuarios = this.usuarios.map((u, index) => {
+    const direcciones = resultados[index] || [];
+
+    const principal = direcciones.find(
+      (d: any) => d.direccionPrincipal === true
+    );
+
+    return {
+      ...u,
+      direccionPrincipal: principal?.nombreCalle ?? 'Sin dirección'
+    };
+  });
+}
+
+  async obtenerDireccionPrincipal(usuarioId: number): Promise<String | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
     const contrasena = localStorage.getItem('contrasena') || '';
@@ -58,8 +83,8 @@ export class UserListComponent implements OnInit {
       this.direcciones = response;
 
       for (let direccion of this.direcciones) {
-        if (direccion.isDireccionPrincipal()) {
-          direccionPrincipal = direccion.nombre;
+        if (direccion.direccionPrincipal===true) {
+          direccionPrincipal = direccion.nombreCalle;
           break;
         }
       }

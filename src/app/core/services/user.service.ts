@@ -43,7 +43,7 @@ export class UserService {
     return await to(
       this.http
         .get<any>(
-          `${ConstUrls.API_URL}/api/v1/direcciones/direc-por-usuario/${numberAttribute}`,
+          `${ConstUrls.API_URL}/api/v1/direcciones/direc-por-usuario/${usuarioId}`,
           {
             params: params
           }
