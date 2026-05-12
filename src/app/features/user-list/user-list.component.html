@@ -1,8 +1,5 @@
-
-<app-user-popup *ngIf="modoPopup !== 'CLOSED'"
-                (cerrarPopUpOk)="onCerrarPopUpOk()"
-                (cerrarPopUpCancel)="onCerrarPopUpCancel()"
-/>
+<app-user-popup *ngIf="modoPopup !== 'CLOSED'" (cerrarPopUpOk)="onCerrarPopUpOk()"
+    (cerrarPopUpCancel)="onCerrarPopUpCancel()" />
 
 <div class="user-list-container">
     <h2>User List</h2>
@@ -10,5 +7,38 @@
     <div>
         <button (click)="launchPopup()">Popup</button>
     </div>
+    <table class="user-table">
+
+        <thead>
+            <tr>
+                <th>Género</th>
+                <th>Nombre completo</th>
+                <th>Fecha de creación</th>
+                <th>Edad</th>
+                <th>Desayuno</th>
+                <th>Puesto de trabajo</th>
+                <th>Direccion principal</th>
+                <th>¿Es administrador?</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let usuario of usuarios">
+
+                <td>{{ usuario.genero.nombre }}</td>
+                <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }} </td>
+                <td>{{ usuario.fechaHoraCreacion.replace('T', ' ') }}</td>
+                <td>{{ calcularEdad(usuario.fechaNacimiento) }}</td>
+                <td>{{ usuario.horaDesayuno }}</td>
+                <td>{{ usuario.puestoDeTrabajo.nombre }}</td>
+                <td>{{ obtenerDireccionPrincipal(usuario.id) }}</td>
+                <td>{{ usuario.esAdmin ? 'Sí' : 'No' }}</td>
+                
+
+            </tr>
+        </tbody>
+
+    </table>
 
 </div>
