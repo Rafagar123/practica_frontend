@@ -13,6 +13,7 @@
 
         <thead>
             <tr>
+                <th></th>
                 <th>Género</th>
                 <th>Nombre completo</th>
                 <th>Fecha de creación</th>
@@ -29,6 +30,8 @@
         <tbody>
             <tr *ngFor="let usuario of usuarios">
 
+                <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario">
+                </td>
                 <td><img [src]="usuario.icono" width="40"></td>
                 <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }} </td>
                 <td>{{ usuario.fechaHoraCreacion.replace('T', ' ') }}</td>

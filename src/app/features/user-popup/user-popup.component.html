@@ -2,8 +2,41 @@
 <div class="dialog-overlay"></div>
 <div class="dialog-box">
     <div class="dialog-title">
-        <h2>Pop Up</h2>
+        <h2>Crear usuario</h2>
     </div>
+    <form>
+        <label for="nickUsuario">Usuario:</label>
+        <input type="text" id="nickUsuario" name="nickUsuario">
+        <label for="contrasena">Password:</label>
+        <input type="text" id="contrasena" name="contrasena">
+        <label for="fechaCreacion">Fecha de creación:</label>
+        <input type="text" id="fechaCreacion" name="fechaCreacion" disabled>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre">
+        <label for="primerApellido">Primer apellido:</label>
+        <input type="text" id="primerApellido" name="primerApellido">
+        <label for="segundoApellido">Segundo apellido:</label>
+        <input type="text" id="segundoApellido" name="segundoApellido">
+        <label for="fechaNacimiento">Fecha de nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+        <label for="genero">Género:</label>
+        <select id="genero" name="genero">
+            <option value="male">Masculino</option>
+            <option value="female">Femenino</option>
+        </select>
+        <label for="puestoDeTrabajo">Puesto de trabajo:</label>
+        <select id="puestoDeTrabajo" name="puestoDeTrabajo">
+            <option value="picador">Picador</option>
+            <option value="rey">Rey</option>
+        </select>
+        <label for="horaDesayuno">Hora desayuno:</label>
+        <input type="time" id="horaDesayuno" name="horaDesayuno">
+        <label for="esAdmin">¿Es administrador?:</label>
+        <select id="esAdmin" name="esAdmin">
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+    </form>
 
     <button (click)="onSave()">Aceptar</button>
     <button (click)="onCancel()">Cancelar</button>
