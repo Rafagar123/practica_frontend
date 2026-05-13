@@ -41,11 +41,14 @@ export class UserListComponent implements OnInit {
 
       this.usuarios = response;
       await this.cargarDirecciones();
+      await this.iconoGenero();
+
 
     } catch (error) {
       console.error('Error real:', error);
     }
   }
+
 
   async cargarDirecciones() {
 
@@ -69,13 +72,14 @@ export class UserListComponent implements OnInit {
 
           if (direccion.direccionPrincipal === true) {
             direccionPrincipal = direccion.nombreCalle;
-          }else{
-          contador += 1;
+          } else {
+            contador += 1;
           }
         }
 
         usuario.direccionPrincipal = direccionPrincipal;
         usuario.direccionesExtra = contador;
+
 
       } catch (error) {
 
@@ -118,6 +122,26 @@ export class UserListComponent implements OnInit {
     let edad = hoy.getFullYear() - nacimiento.getFullYear();
 
     return edad;
+  }
+
+  iconoGenero() {
+
+    for (let usuario of this.usuarios) {
+
+      if (usuario.genero.id == '1') {
+
+        usuario.icono = 'assets/images/Male.JPG';
+
+      } else if (usuario.genero.id == '2') {
+
+        usuario.icono = 'assets/images/Female.JPG';
+
+      } else {
+
+        usuario.icono = 'assets/images/Other.png';
+      }
+
+    }
   }
 
   onCerrarPopUpOk() {
