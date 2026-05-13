@@ -2,6 +2,7 @@
   max-width: 600px;
   margin: 30px auto;
 }
+
 .dialog-overlay {
   position: fixed;
   top: 0;
@@ -11,6 +12,7 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+
 .dialog-box {
   position: fixed;
   top: 50%;
@@ -22,9 +24,14 @@
   border-radius: 8px;
   min-width: 500px;
 }
+
 .errorClass {
   color: red;
   margin-top: 1em;
+}
+
+header {
+  background-color: rgb(113, 82, 82);
 }
 
 body {
@@ -39,7 +46,10 @@ table {
   width: 100%;
 }
 
-table, th, tr, td {
+table,
+th,
+tr,
+td {
   border-collapse: collapse;
   border: 1px solid #ad6f72;
 }
@@ -58,15 +68,19 @@ td {
   padding: .3rem;
 }
 
-tr:nth-child(even) {background-color: #f7cecc;}
+tr:nth-child(even) {
+  background-color: #f7cecc;
+}
 
 .container-button {
-  display: flex; /* alinear horizontalmente */
+  display: flex;
+  /* alinear horizontalmente */
   gap: 10px;
   margin-bottom: .8rem;
 }
 
-.main-button, .main-button-icon {
+.main-button,
+.main-button-icon {
   width: auto;
   height: 40px;
   padding: .4rem .6rem;
@@ -124,15 +138,17 @@ tr:nth-child(even) {background-color: #f7cecc;}
   float: left;
 }
 
-.form-control-table:focus{
+.form-control-table:focus {
   outline: none;
 }
 
-.form-control:focus{
+.form-control:focus {
   outline: solid 1px #ccc;
 }
 
-input,textarea, select {
+input,
+textarea,
+select {
   width: 100%;
   font: inherit;
   padding: 0.15rem 0.25rem;
