@@ -38,7 +38,7 @@
                 <td>{{ calcularEdad(usuario.fechaNacimiento) }}</td>
                 <td>{{ usuario.horaDesayuno }}</td>
                 <td>{{ usuario.puestoDeTrabajo.nombre }}</td>
-                <td>{{ usuario.direccionPrincipal }}</td>
+                <td>{{ usuario.direccionPrincipal.nombreCalle }}, {{ usuario.direccionPrincipal.numeroCalle }}</td>
                 <td>{{ usuario.direccionesExtra }}</td>
                 <td>{{ usuario.esAdmin ? 'Sí' : 'No' }}</td>
 

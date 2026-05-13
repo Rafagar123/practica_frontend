@@ -52,44 +52,55 @@ export class UserListComponent implements OnInit {
 
   async cargarDirecciones() {
 
-    const nick = localStorage.getItem('nickUsuario') || '';
-    const pass = localStorage.getItem('contrasena') || '';
+  const nick = localStorage.getItem('nickUsuario') || '';
+  const pass = localStorage.getItem('contrasena') || '';
 
-    for (let usuario of this.usuarios) {
-      let contador: number = 0;
+  for (let usuario of this.usuarios) {
 
-      try {
+    let contador: number = 0;
 
-        const direcciones = await this.userService.obtenerDireccionPrincipal(
-          usuario.id,
-          nick,
-          pass
-        );
+    try {
 
-        let direccionPrincipal = 'Sin dirección';
+      const direcciones = await this.userService.obtenerDireccionPrincipal(
+        usuario.id,
+        nick,
+        pass
+      );
 
-        for (let direccion of direcciones) {
+      let direccionPrincipalObj = null;
 
-          if (direccion.direccionPrincipal === true) {
-            direccionPrincipal = direccion.nombreCalle;
-          } else {
-            contador += 1;
-          }
+      for (let direccion of direcciones) {
+
+        if (direccion.direccionPrincipal === true) {
+
+          direccionPrincipalObj = {
+            nombreCalle: direccion.nombreCalle,
+            numeroCalle: direccion.numeroCalle
+          };
+
+        } else {
+          contador += 1;
         }
-
-        usuario.direccionPrincipal = direccionPrincipal;
-        usuario.direccionesExtra = contador;
-
-
-      } catch (error) {
-
-        console.error('Error obteniendo dirección:', error);
-
-        usuario.direccionPrincipal = 'Error';
       }
+
+      usuario.direccionPrincipal = direccionPrincipalObj || {
+        nombreCalle: 'Sin dirección',
+        numeroCalle: ''
+      };
+
+      usuario.direccionesExtra = contador;
+
+    } catch (error) {
+
+      console.error('Error obteniendo dirección:', error);
+
+      usuario.direccionPrincipal = {
+        nombreCalle: 'Error',
+        numeroCalle: ''
+      };
     }
   }
-
+}
   async obtenerDireccionPrincipal(usuarioId: number): Promise<String | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
@@ -144,7 +155,7 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  volverLogin(){
+  volverLogin() {
     this.router.navigate(['/login']);
   }
 
