@@ -47,35 +47,47 @@ export class UserListComponent implements OnInit {
     }
   }
 
-async cargarDirecciones() {
-  const nick = localStorage.getItem('nickUsuario') || '';
-  const pass = localStorage.getItem('contrasena') || '';
+  async cargarDirecciones() {
 
-  const requests = this.usuarios.map(u =>
-    this.userService.obtenerDireccionPrincipal(u.id, nick, pass)
-  );
+    const nick = localStorage.getItem('nickUsuario') || '';
+    const pass = localStorage.getItem('contrasena') || '';
 
-  const resultados = await Promise.all(requests);
+    for (let usuario of this.usuarios) {
 
-  this.usuarios = this.usuarios.map((u, index) => {
-    const direcciones = resultados[index] || [];
+      try {
 
-    const principal = direcciones.find(
-      (d: any) => d.direccionPrincipal === true
-    );
+        const direcciones = await this.userService.obtenerDireccionPrincipal(
+          usuario.id,
+          nick,
+          pass
+        );
 
-    return {
-      ...u,
-      direccionPrincipal: principal?.nombreCalle ?? 'Sin dirección'
-    };
-  });
-}
+        let direccionPrincipal = 'Sin dirección';
+
+        for (let direccion of direcciones) {
+
+          if (direccion.direccionPrincipal === true) {
+            direccionPrincipal = direccion.nombreCalle;
+            break;
+          }
+        }
+
+        usuario.direccionPrincipal = direccionPrincipal;
+
+      } catch (error) {
+
+        console.error('Error obteniendo dirección:', error);
+
+        usuario.direccionPrincipal = 'Error';
+      }
+    }
+  }
 
   async obtenerDireccionPrincipal(usuarioId: number): Promise<String | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
     const contrasena = localStorage.getItem('contrasena') || '';
-    let direccionPrincipal : string | null = null;
+    let direccionPrincipal: string | null = null;
 
     try {
       const response = await this.userService.obtenerDireccionPrincipal(usuarioId, nickUsuario, contrasena);
@@ -83,7 +95,7 @@ async cargarDirecciones() {
       this.direcciones = response;
 
       for (let direccion of this.direcciones) {
-        if (direccion.direccionPrincipal===true) {
+        if (direccion.direccionPrincipal === true) {
           direccionPrincipal = direccion.nombreCalle;
           break;
         }
