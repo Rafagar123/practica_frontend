@@ -53,6 +53,7 @@ export class UserListComponent implements OnInit {
     const pass = localStorage.getItem('contrasena') || '';
 
     for (let usuario of this.usuarios) {
+      let contador: number = 0;
 
       try {
 
@@ -68,11 +69,13 @@ export class UserListComponent implements OnInit {
 
           if (direccion.direccionPrincipal === true) {
             direccionPrincipal = direccion.nombreCalle;
-            break;
+          }else{
+          contador += 1;
           }
         }
 
         usuario.direccionPrincipal = direccionPrincipal;
+        usuario.direccionesExtra = contador;
 
       } catch (error) {
 
