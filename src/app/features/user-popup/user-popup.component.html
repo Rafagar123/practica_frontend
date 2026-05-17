@@ -7,29 +7,38 @@
     <form (ngSubmit)="onSave()">
         <label for="nickUsuario">Usuario:</label>
         <input type="text" id="nickUsuario" name="nickUsuario" [(ngModel)]="user.nickUsuario">
+
         <label for="contrasena">Password:</label>
         <input type="text" id="contrasena" name="contrasena" [(ngModel)]="user.contrasena">
+
         <label for="fechaCreacion">Fecha de creación:</label>
         <input type="text" id="fechaCreacion" name="fechaCreacion" [(ngModel)]="user.fechaHoraCreacion" disabled>
+
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" [(ngModel)]="user.nombre">
+
         <label for="primerApellido">Primer apellido:</label>
         <input type="text" id="primerApellido" name="primerApellido" [(ngModel)]="user.primerApellido">
+
         <label for="segundoApellido">Segundo apellido:</label>
         <input type="text" id="segundoApellido" name="segundoApellido" [(ngModel)]="user.segundoApellido">
+
         <label for="fechaNacimiento">Fecha de nacimiento:</label>
         <input type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="user.fechaNacimiento">
+
         <label for="genero">Género:</label>
         <select id="genero" name="genero" [(ngModel)]="user.genero" [compareWith]="compararGeneros">
             <option *ngFor="let genero of generos" [ngValue]="genero"> {{genero.nombre}}</option>
         </select>
+
         <label for="puestoDeTrabajo">Puesto de trabajo:</label>
-        <select id="puestoDeTrabajo" name="puestoDeTrabajo" [(ngModel)]="user.puestoDeTrabajo">
-            <option [ngValue]="{ id: '1', nombre: 'Picador' }">Picador</option>
-            <option [ngValue]="{ id: '2', nombre: 'Rey' }">Rey</option>
+        <select id="puestoDeTrabajo" name="puestoDeTrabajo" [(ngModel)]="user.puestoDeTrabajo" [compareWith]="compararPuestos">
+            <option *ngFor="let puesto of puestos" [ngValue]="puesto"> {{puesto.nombre}}</option>
         </select>
+
         <label for="horaDesayuno">Hora desayuno:</label>
         <input type="time" id="horaDesayuno" name="horaDesayuno" [(ngModel)]="user.horaDesayuno">
+
         <label for="esAdmin">¿Es administrador?:</label>
         <select id="esAdmin" name="esAdmin" [(ngModel)]="user.esAdmin">
             <option [ngValue]="true">Sí</option>

@@ -19,6 +19,7 @@ export class UserPopupComponent implements OnInit {
     @Output() cerrarPopUpCancel = new EventEmitter<void>();
     userService: UserService;
     @Input() generos: any[] = [];
+    @Input() puestos: any[] = [];
 
     constructor(userService: UserService) {
         this.userService = userService;
@@ -27,6 +28,7 @@ export class UserPopupComponent implements OnInit {
     async ngOnInit() {
         this.user = this.user || {};
         await this.cargarGeneros();
+        await this.cargarPuestos();
     }
 
     async onSave() {
@@ -51,7 +53,24 @@ export class UserPopupComponent implements OnInit {
 
     }
 
+    async cargarPuestos(): Promise<void> {
+        const nick = localStorage.getItem('nickUsuario') || '';
+        const contrasena = localStorage.getItem('contrasena') || '';
+        try {
+            const response = await this.userService.obtenerPuestos(nick, contrasena);
+            this.puestos = response || [];
+            console.log('Puestos cargados correctamente');
+        } catch (error) {
+            console.error('Error al cargar puestos:', error);
+        }
+
+    }
+
     compararGeneros(g1: any, g2: any): boolean {
         return g1 && g2 ? g1.id === g2.id : g1 === g2;
+    }
+
+    compararPuestos(p1: any, p2: any): boolean {
+        return p1 && p2 ? p1.id === p2.id : p1 === p2;
     }
 }
