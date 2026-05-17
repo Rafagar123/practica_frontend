@@ -20,10 +20,8 @@
         <label for="fechaNacimiento">Fecha de nacimiento:</label>
         <input type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="user.fechaNacimiento">
         <label for="genero">Género:</label>
-        <select id="genero" name="genero" [(ngModel)]="user.genero">
-            <option [ngValue]="{ id: '1', nombre: 'Masculino' }">Masculino</option>
-            <option [ngValue]="{ id: '2', nombre: 'Femenino' }">Femenino</option>
-            <option [ngValue]="{ id: '3', nombre: 'Otro' }">Otro</option>
+        <select id="genero" name="genero" [(ngModel)]="user.genero" [compareWith]="compararGeneros">
+            <option *ngFor="let genero of generos" [ngValue]="genero"> {{genero.nombre}}</option>
         </select>
         <label for="puestoDeTrabajo">Puesto de trabajo:</label>
         <select id="puestoDeTrabajo" name="puestoDeTrabajo" [(ngModel)]="user.puestoDeTrabajo">

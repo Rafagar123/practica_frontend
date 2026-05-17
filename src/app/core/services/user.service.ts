@@ -52,4 +52,20 @@ export class UserService {
     )
   }
 
+  async obtenerGeneros(nickUsuario: string, contrasena: string) {
+    let params = new HttpParams()
+      .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
+      .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
+    return await to(
+      this.http
+        .get<any>(
+          `${ConstUrls.API_URL}/api/v1/generos/generos`,
+          {
+            params: params
+          }
+        )
+        .toPromise()
+    )
+  }
+
 }
