@@ -23,7 +23,9 @@ export class UserListComponent implements OnInit {
   direcciones: any[] = [];
 
 
-  modoPopup: String = 'CLOSED';
+  modoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
+  popupUser: any = null;
+  usuarioSeleccionado: any = null;
 
   constructor(private router: Router, userService: UserService) {
     this.userService = userService;
@@ -168,10 +170,58 @@ export class UserListComponent implements OnInit {
   }
 
   launchPopup() {
-
-    this.modoPopup = 'LAUNCH';
+    this.openCreatePopup();
   }
 
-  // @TODO: Implementar propiedades, atributos, métodos... necesarios para el funcionamiento del listado de usuarios
+  openCreatePopup() {
+    this.modoPopup = 'create';
+    this.popupUser = {
+      nickUsuario: '',
+      contrasena: '',
+      fechaHoraCreacion: new Date().toISOString().substring(0, 10),
+      nombre: '',
+      primerApellido: '',
+      segundoApellido: '',
+      fechaNacimiento: '',
+      genero: { id: '1', nombre: 'Masculino' },
+      puestoDeTrabajo: { id: '1', nombre: 'Picador' },
+      horaDesayuno: '',
+      esAdmin: false
+    };
+  }
 
+  openEditPopup(usuario: any) {
+    this.modoPopup = 'edit';
+    this.popupUser = JSON.parse(JSON.stringify(usuario));
+  }
+
+  openEditPopupSelected() {
+    if (!this.usuarioSeleccionado) {
+      return;
+    }
+    this.openEditPopup(this.usuarioSeleccionado);
+  }
+
+  async onUserSave(usuario: any) {
+    if (this.modoPopup === 'create') {
+      await this.crearUsuario(usuario);
+    } else {
+      await this.modificarUsuario(usuario);
+    }
+    this.modoPopup = 'CLOSED';
+    await this.ngOnInit();
+  }
+
+  async crearUsuario(usuario: any) {
+    console.log('Crear usuario:', usuario);
+    // Aquí puedes llamar a un método del servicio para crear el usuario:
+    // await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+  }
+
+  async modificarUsuario(usuario: any) {
+    console.log('Modificar usuario:', usuario);
+    // Aquí puedes llamar a un método del servicio para modificar el usuario:
+    // await this.userService.modificarUsuario(usuario, this.nickUsuario, this.contrasena);
+  }
 }
+

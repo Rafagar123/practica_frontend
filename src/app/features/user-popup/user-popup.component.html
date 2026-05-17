@@ -2,43 +2,46 @@
 <div class="dialog-overlay"></div>
 <div class="dialog-box">
     <div class="dialog-title">
-        <h2>Crear usuario</h2>
+        <h2>{{ mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}</h2>
     </div>
-    <form>
+    <form (ngSubmit)="onSave()">
         <label for="nickUsuario">Usuario:</label>
-        <input type="text" id="nickUsuario" name="nickUsuario">
+        <input type="text" id="nickUsuario" name="nickUsuario" [(ngModel)]="user.nickUsuario">
         <label for="contrasena">Password:</label>
-        <input type="text" id="contrasena" name="contrasena">
+        <input type="text" id="contrasena" name="contrasena" [(ngModel)]="user.contrasena">
         <label for="fechaCreacion">Fecha de creación:</label>
-        <input type="text" id="fechaCreacion" name="fechaCreacion" disabled>
+        <input type="text" id="fechaCreacion" name="fechaCreacion" [(ngModel)]="user.fechaHoraCreacion" disabled>
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
+        <input type="text" id="nombre" name="nombre" [(ngModel)]="user.nombre">
         <label for="primerApellido">Primer apellido:</label>
-        <input type="text" id="primerApellido" name="primerApellido">
+        <input type="text" id="primerApellido" name="primerApellido" [(ngModel)]="user.primerApellido">
         <label for="segundoApellido">Segundo apellido:</label>
-        <input type="text" id="segundoApellido" name="segundoApellido">
+        <input type="text" id="segundoApellido" name="segundoApellido" [(ngModel)]="user.segundoApellido">
         <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="user.fechaNacimiento">
         <label for="genero">Género:</label>
-        <select id="genero" name="genero">
-            <option value="male">Masculino</option>
-            <option value="female">Femenino</option>
+        <select id="genero" name="genero" [(ngModel)]="user.genero">
+            <option [ngValue]="{ id: '1', nombre: 'Masculino' }">Masculino</option>
+            <option [ngValue]="{ id: '2', nombre: 'Femenino' }">Femenino</option>
+            <option [ngValue]="{ id: '3', nombre: 'Otro' }">Otro</option>
         </select>
         <label for="puestoDeTrabajo">Puesto de trabajo:</label>
-        <select id="puestoDeTrabajo" name="puestoDeTrabajo">
-            <option value="picador">Picador</option>
-            <option value="rey">Rey</option>
+        <select id="puestoDeTrabajo" name="puestoDeTrabajo" [(ngModel)]="user.puestoDeTrabajo">
+            <option [ngValue]="{ id: '1', nombre: 'Picador' }">Picador</option>
+            <option [ngValue]="{ id: '2', nombre: 'Rey' }">Rey</option>
         </select>
         <label for="horaDesayuno">Hora desayuno:</label>
-        <input type="time" id="horaDesayuno" name="horaDesayuno">
+        <input type="time" id="horaDesayuno" name="horaDesayuno" [(ngModel)]="user.horaDesayuno">
         <label for="esAdmin">¿Es administrador?:</label>
-        <select id="esAdmin" name="esAdmin">
-            <option value="true">Sí</option>
-            <option value="false">No</option>
+        <select id="esAdmin" name="esAdmin" [(ngModel)]="user.esAdmin">
+            <option [ngValue]="true">Sí</option>
+            <option [ngValue]="false">No</option>
         </select>
     </form>
 
-    <button (click)="onSave()">Aceptar</button>
-    <button (click)="onCancel()">Cancelar</button>
+    <div class="dialog-actions">
+        <button type="button" (click)="onSave()">Aceptar</button>
+        <button type="button" (click)="onCancel()">Cancelar</button>
+    </div>
     <!-- @TODO: Implementar el contenido del pop up, así como los botones de acción (ej. Cancelar, Aceptar) -->
 </div>

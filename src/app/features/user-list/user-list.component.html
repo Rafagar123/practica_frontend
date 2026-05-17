@@ -1,14 +1,20 @@
-<app-user-popup *ngIf="modoPopup !== 'CLOSED'" (cerrarPopUpOk)="onCerrarPopUpOk()"
-    (cerrarPopUpCancel)="onCerrarPopUpCancel()" />
+<app-user-popup *ngIf="modoPopup !== 'CLOSED'"
+  [mode]="modoPopup"
+  [user]="popupUser"
+  (save)="onUserSave($event)"
+  (cerrarPopUpOk)="onCerrarPopUpOk()"
+  (cerrarPopUpCancel)="onCerrarPopUpCancel()">
+</app-user-popup>
 <header>
     <button (click)="volverLogin()">Log Out</button>
 </header>
 <div class="user-list-container">
     <h2>User List</h2>
-    <!-- @TODO: Implement user list display here -->
-    <div>
-        <button (click)="launchPopup()">Popup</button>
+    <div class="top-actions">
+        <button type="button" (click)="openCreatePopup()">Crear usuario</button>
+        <button type="button" [disabled]="!usuarioSeleccionado" (click)="openEditPopupSelected()">Editar usuario</button>
     </div>
+    <p class="selection-help">Selecciona un usuario con el radio para poder editarlo.</p>
     <table class="user-table">
 
         <thead>
@@ -29,9 +35,7 @@
 
         <tbody>
             <tr *ngFor="let usuario of usuarios">
-
-                <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario">
-                </td>
+                <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario"></td>
                 <td><img [src]="usuario.icono" width="40"></td>
                 <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }} </td>
                 <td>{{ usuario.fechaHoraCreacion.replace('T', ' ') }}</td>
