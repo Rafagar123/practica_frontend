@@ -1,5 +1,5 @@
 import { Injectable, numberAttribute } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Usuario } from '../models/user.model';
 import to from "./utils.service";
 import ConstUrls from 'src/app/shared/contants/const-urls';
@@ -68,7 +68,7 @@ export class UserService {
     )
   }
 
-    async obtenerPuestos(nickUsuario: string, contrasena: string) {
+  async obtenerPuestos(nickUsuario: string, contrasena: string) {
     let params = new HttpParams()
       .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
       .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
@@ -82,6 +82,30 @@ export class UserService {
         )
         .toPromise()
     )
+  }
+
+  async crearUsuario(body: any, nickUsuario: string, contrasena: string) {
+    let params = new HttpParams()
+      .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
+      .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return await to(
+      this.http
+        .post<any>(
+          `${ConstUrls.API_URL}/api/v1/usuarios/usuario`,
+          body,
+          {
+            params: params,
+            headers: headers
+          }
+        )
+        .toPromise()
+    )
+
   }
 
 }

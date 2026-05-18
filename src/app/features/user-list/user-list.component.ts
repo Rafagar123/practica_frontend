@@ -214,8 +214,7 @@ export class UserListComponent implements OnInit {
 
   async crearUsuario(usuario: any) {
     console.log('Crear usuario:', usuario);
-    // Aquí puedes llamar a un método del servicio para crear el usuario:
-    // await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+     await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 
   async modificarUsuario(usuario: any) {

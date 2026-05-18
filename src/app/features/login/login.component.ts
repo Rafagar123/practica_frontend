@@ -35,6 +35,7 @@ export class LoginComponent {
       this.router.navigate(['/usuarios']);
     } else {
       console.log("Login failed");
+      alert("Usuario o contraseña incorrectos"); 
     }
     console.log("Login result:", result);
   }
