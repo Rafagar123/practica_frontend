@@ -4,77 +4,80 @@
         <h2>{{ mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}</h2>
     </div>
     <div class="form-control-table">
-      <form (ngSubmit)="onSave()">
-        <div class="form-row">
-          <div class="form-column">
-            <label for="nickUsuario">Usuario:</label>
-            <input class="form-control" type="text" id="nickUsuario" name="nickUsuario" [(ngModel)]="user.nickUsuario">
-          </div>
-          <div class="form-column">
-            <label for="contrasena">Password:</label>
-            <input class="form-control" type="text" id="contrasena" name="contrasena" [(ngModel)]="user.contrasena">
-          </div>
-        </div>
+        <form (ngSubmit)="onSave()">
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="nickUsuario">Usuario:</label>
+                    <input class="form-control" type="text" id="nickUsuario" name="nickUsuario"
+                        [(ngModel)]="user.nickUsuario">
+                </div>
+                <div class="form-column">
+                    <label for="contrasena">Password:</label>
+                    <input class="form-control" type="text" id="contrasena" name="contrasena"
+                        [(ngModel)]="user.contrasena">
+                </div>
+                <div class="form-column">
+                    <label for="fechaCreacion">Fecha de creación:</label>
+                    <input class="form-control" type="text" id="fechaCreacion" name="fechaCreacion"
+                        [value]="user.fechaHoraCreacion?.replace('T', ' ')" disabled>
+                </div>
+            </div>
 
-        <div class="form-row">
-          <div class="form-column">
-            <label for="fechaCreacion">Fecha de creación:</label>
-            <input class="form-control" type="text" id="fechaCreacion" name="fechaCreacion" [value]="user.fechaHoraCreacion?.replace('T', ' ')" disabled>
-          </div>
-          <div class="form-column">
-            <label for="nombre">Nombre:</label>
-            <input class="form-control" type="text" id="nombre" name="nombre" [(ngModel)]="user.nombre">
-          </div>
-        </div>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="nombre">Nombre:</label>
+                    <input class="form-control" type="text" id="nombre" name="nombre" [(ngModel)]="user.nombre">
+                </div>
+                <div class="form-column">
+                    <label for="primerApellido">Primer apellido:</label>
+                    <input class="form-control" type="text" id="primerApellido" name="primerApellido"
+                        [(ngModel)]="user.primerApellido">
+                </div>
+                <div class="form-column">
+                    <label for="segundoApellido">Segundo apellido:</label>
+                    <input class="form-control" type="text" id="segundoApellido" name="segundoApellido"
+                        [(ngModel)]="user.segundoApellido">
+                </div>
+            </div>
 
-        <div class="form-row">
-          <div class="form-column">
-            <label for="primerApellido">Primer apellido:</label>
-            <input class="form-control" type="text" id="primerApellido" name="primerApellido" [(ngModel)]="user.primerApellido">
-          </div>
-          <div class="form-column">
-            <label for="segundoApellido">Segundo apellido:</label>
-            <input class="form-control" type="text" id="segundoApellido" name="segundoApellido" [(ngModel)]="user.segundoApellido">
-          </div>
-        </div>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                    <input class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento"
+                        [(ngModel)]="user.fechaNacimiento">
+                </div>
+                <div class="form-column">
+                    <label for="genero">Género:</label>
+                    <select class="form-control" id="genero" name="genero" [(ngModel)]="user.genero"
+                        [compareWith]="compararGeneros">
+                        <option *ngFor="let genero of generos" [ngValue]="genero">{{ genero.nombre }}</option>
+                    </select>
+                </div>
+                <div class="form-column">
+                    <label for="puestoDeTrabajo">Puesto de trabajo:</label>
+                    <select class="form-control" id="puestoDeTrabajo" name="puestoDeTrabajo"
+                        [(ngModel)]="user.puestoDeTrabajo" [compareWith]="compararPuestos">
+                        <option *ngFor="let puesto of puestos" [ngValue]="puesto">{{ puesto.nombre }}</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="form-row">
-          <div class="form-column">
-            <label for="fechaNacimiento">Fecha de nacimiento:</label>
-            <input class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="user.fechaNacimiento">
-          </div>
-          <div class="form-column">
-            <label for="genero">Género:</label>
-            <select class="form-control" id="genero" name="genero" [(ngModel)]="user.genero" [compareWith]="compararGeneros">
-              <option *ngFor="let genero of generos" [ngValue]="genero">{{ genero.nombre }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-column">
-            <label for="puestoDeTrabajo">Puesto de trabajo:</label>
-            <select class="form-control" id="puestoDeTrabajo" name="puestoDeTrabajo" [(ngModel)]="user.puestoDeTrabajo" [compareWith]="compararPuestos">
-              <option *ngFor="let puesto of puestos" [ngValue]="puesto">{{ puesto.nombre }}</option>
-            </select>
-          </div>
-          <div class="form-column">
-            <label for="horaDesayuno">Hora desayuno:</label>
-            <input class="form-control" type="time" id="horaDesayuno" name="horaDesayuno" [(ngModel)]="user.horaDesayuno">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-column">
-            <label for="esAdmin">¿Es administrador?:</label>
-            <select class="form-control" id="esAdmin" name="esAdmin" [(ngModel)]="user.esAdmin">
-              <option [ngValue]="true">Sí</option>
-              <option [ngValue]="false">No</option>
-            </select>
-          </div>
-        </div>
-      </form>
-</div>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="horaDesayuno">Hora desayuno:</label>
+                    <input class="form-control" type="time" id="horaDesayuno" name="horaDesayuno"
+                        [(ngModel)]="user.horaDesayuno">
+                </div>
+                <div class="form-column">
+                    <label for="esAdmin">¿Es administrador?:</label>
+                    <select class="form-control" id="esAdmin" name="esAdmin" [(ngModel)]="user.esAdmin">
+                        <option [ngValue]="true">Sí</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="container-button-right">
         <button type="button" (click)="onSave()" class="main-button">Aceptar</button>
         <button type="button" (click)="onCancel()" class="main-button">Cancelar</button>
