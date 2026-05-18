@@ -192,7 +192,7 @@ async ngOnInit(): Promise<void> {
     if (this.modoPopup === 'create') {
       await this.crearUsuario(usuario);
     } else {
-      await this.modificarUsuario(usuario);
+      await this.editarUsuario(usuario);
     }
     this.modoPopup = 'CLOSED';
     await this.ngOnInit();
@@ -203,7 +203,7 @@ async ngOnInit(): Promise<void> {
      await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 
-  async modificarUsuario(usuario: Usuario) {
+  async editarUsuario(usuario: Usuario) {
     console.log('Modificar usuario:', usuario);
     await this.userService.editarUsuario(usuario, this.nickUsuario, this.contrasena);
   }

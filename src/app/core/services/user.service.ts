@@ -130,6 +130,7 @@ export class UserService {
           }
         )
       );
+      console.log('Respuesta del servidor:', response);
       return response;
     } catch (error) {
       console.error('ERROR COMPLETO:', error);
@@ -174,7 +175,7 @@ export class UserService {
       console.log('BODY ENVIADO:', sanitizedBody);
 
       const response = await firstValueFrom(
-        this.http.post<any>(
+        this.http.put<any>(
           `${ConstUrls.API_URL}/api/v1/usuarios/usuario/${body.id}`,
           sanitizedBody,
           {
@@ -182,6 +183,7 @@ export class UserService {
           }
         )
       );
+      console.log('Respuesta del servidor:', response);
       return response;
     } catch (error) {
       console.error('ERROR COMPLETO:', error);
