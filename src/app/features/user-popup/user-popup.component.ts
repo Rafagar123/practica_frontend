@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { UserService } from 'src/app/core/services/user.service';
+import { Usuario } from 'src/app/core/models/user.model';
+import { Genero } from 'src/app/core/models/genero.model';
+import { PuestoDeTrabajo } from 'src/app/core/models/puestodetrabajo.model';
 
 @Component({
     selector: 'app-user-popup',
@@ -13,13 +16,13 @@ import { UserService } from 'src/app/core/services/user.service';
 export class UserPopupComponent implements OnInit {
 
     @Input() mode: 'create' | 'edit' = 'create';
-    @Input() user: any = {};
-    @Output() save = new EventEmitter<any>();
+    @Input() user: Usuario | any = {};
+    @Output() save = new EventEmitter<Usuario>();
     @Output() cerrarPopUpOk = new EventEmitter<void>();
     @Output() cerrarPopUpCancel = new EventEmitter<void>();
     userService: UserService;
-    @Input() generos: any[] = [];
-    @Input() puestos: any[] = [];
+    @Input() generos: Genero[] = [];
+    @Input() puestos: PuestoDeTrabajo[] = [];
 
     constructor(userService: UserService) {
         this.userService = userService;
@@ -66,11 +69,11 @@ export class UserPopupComponent implements OnInit {
 
     }
 
-    compararGeneros(g1: any, g2: any): boolean {
+    compararGeneros(g1: Genero | null, g2: Genero | null): boolean {
         return g1 && g2 ? g1.id === g2.id : g1 === g2;
     }
 
-    compararPuestos(p1: any, p2: any): boolean {
+    compararPuestos(p1: PuestoDeTrabajo | null, p2: PuestoDeTrabajo | null): boolean {
         return p1 && p2 ? p1.id === p2.id : p1 === p2;
     }
 }

@@ -1,21 +1,24 @@
 import {Genero} from "./genero.model";
 import {PuestoDeTrabajo} from "./puestodetrabajo.model";
-import {Direccion} from "./direccion.model";
 
+// NOTE: la API maneja las fechas como cadenas ISO (string). Para evitar
+// incompatibilidades con los payloads recibidos/enviados, usamos `string`.
 export interface Usuario {
-  id: number;
-  nickUsuario: string;
-  nombre: string;
-  contrasena: string;
-  fechaHoraCreacion: Date;
-  genero: Genero;
-  primerApellido: string;
-  segundoApellido: string;
-  fechaNacimiento: Date;
-  horaDesayuno: string;
-  puestoTrabajo: PuestoDeTrabajo;
-  admin: boolean;
-  direcciones: Direccion[];
+  id: number | null;
+  nickUsuario: string | null;
+  nombre: string | null;
+  contrasena: string | null;
+  fechaHoraCreacion: string | null; // ISO string (ej. "2026-05-07T22:01:47")
+  genero: Genero | null;
+  primerApellido: string | null;
+  segundoApellido: string | null;
+  fechaNacimiento: string | null; // YYYY-MM-DD
+  horaDesayuno: string | null; // HH:MM:SS
+  puestoDeTrabajo: PuestoDeTrabajo | null;
+  esAdmin: boolean;
+  direccionPrincipal?: { nombreCalle: string; numeroCalle: string | number } | null;
+  direccionesExtra?: number;
+  icono?: string;
 }
 
 export const usuarioInicial: Usuario = {
@@ -23,7 +26,7 @@ export const usuarioInicial: Usuario = {
   nickUsuario: null,
   nombre: null,
   contrasena: null,
-  fechaHoraCreacion: new Date(),
+  fechaHoraCreacion: new Date().toISOString(),
   genero: {
     id: null,
     nombre: null
@@ -32,10 +35,9 @@ export const usuarioInicial: Usuario = {
   segundoApellido: null,
   fechaNacimiento: null,
   horaDesayuno: null,
-  puestoTrabajo: {
+  puestoDeTrabajo: {
     id: null,
     nombre: null
   },
-  admin: false,
-  direcciones: null
+  esAdmin: false,
 };

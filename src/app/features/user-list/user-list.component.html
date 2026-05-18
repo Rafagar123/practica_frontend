@@ -40,12 +40,12 @@
                 <td><img [src]="usuario.icono" width="40"></td>
                 <td>{{ usuario.nickUsuario }}</td>
                 <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }} </td>
-                <td>{{ usuario.fechaHoraCreacion.replace('T', ' ') }}</td>
+                <td>{{ usuario.fechaHoraCreacion ? usuario.fechaHoraCreacion.replace('T', ' ') : '' }}</td>
                 <td>{{ calcularEdad(usuario.fechaNacimiento) }}</td>
-                <td>{{ usuario.horaDesayuno }}</td>
-                <td>{{ usuario.puestoDeTrabajo.nombre }}</td>
-                <td>{{ usuario.direccionPrincipal.nombreCalle }}, {{ usuario.direccionPrincipal.numeroCalle }}</td>
-                <td>{{ usuario.direccionesExtra }}</td>
+                <td>{{ usuario.horaDesayuno || '' }}</td>
+                <td>{{ usuario.puestoDeTrabajo?.nombre || 'Sin puesto' }}</td>
+                <td>{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{ usuario.direccionPrincipal?.numeroCalle || '' }}</td>
+                <td>{{ usuario.direccionesExtra ?? 0 }}</td>
                 <td>{{ usuario.esAdmin ? 'Sí' : 'No' }}</td>
 
 

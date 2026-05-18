@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { UserPopupComponent } from '../user-popup/user-popup.component';
 import { UserService } from 'src/app/core/services/user.service';
+import { Usuario, usuarioInicial } from 'src/app/core/models/user.model';
+import { Direccion } from 'src/app/core/models/direccion.model';
 
 @Component({
   selector: 'app-user-list',
@@ -19,37 +21,37 @@ export class UserListComponent implements OnInit {
   userService: UserService;
   nickUsuario: string = '';
   contrasena: string = '';
-  usuarios: any[] = [];
-  direcciones: any[] = [];
+  usuarios: Usuario[] = [];
+  direcciones: Direccion[] = [];
 
 
   modoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
-  popupUser: any = null;
-  usuarioSeleccionado: any = null;
+  popupUser: Usuario | null = null;
+  usuarioSeleccionado: Usuario | null = null;
 
   constructor(private router: Router, userService: UserService) {
     this.userService = userService;
   }
 
-  async ngOnInit(): Promise<void> {
+async ngOnInit(): Promise<void> {
 
-    const nickUsuario = localStorage.getItem('nickUsuario') || '';
-    const contrasena = localStorage.getItem('contrasena') || '';
+  this.nickUsuario = localStorage.getItem('nickUsuario') || '';
+  this.contrasena = localStorage.getItem('contrasena') || '';
 
-    try {
-      const response = await this.userService.obtenerUsuarios(nickUsuario, contrasena);
+  try {
+    const response = await this.userService.obtenerUsuarios(
+      this.nickUsuario,
+      this.contrasena
+    );
 
-      console.log('Usuarios:', response);
+    this.usuarios = response || [];
+    await this.cargarDirecciones();
+    this.iconoGenero();
 
-      this.usuarios = response;
-      await this.cargarDirecciones();
-      await this.iconoGenero();
-
-
-    } catch (error) {
-      console.error('Error real:', error);
-    }
+  } catch (error) {
+    console.error('Error real:', error);
   }
+}
 
 
   async cargarDirecciones() {
@@ -58,6 +60,9 @@ export class UserListComponent implements OnInit {
   const pass = localStorage.getItem('contrasena') || '';
 
   for (let usuario of this.usuarios) {
+    if (usuario.id == null) {
+      continue;
+    }
 
     let contador: number = 0;
 
@@ -103,7 +108,7 @@ export class UserListComponent implements OnInit {
     }
   }
 }
-  async obtenerDireccionPrincipal(usuarioId: number): Promise<String | null> {
+  async obtenerDireccionPrincipal(usuarioId: number): Promise<string | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
     const contrasena = localStorage.getItem('contrasena') || '';
@@ -112,7 +117,7 @@ export class UserListComponent implements OnInit {
     try {
       const response = await this.userService.obtenerDireccionPrincipal(usuarioId, nickUsuario, contrasena);
 
-      this.direcciones = response;
+      this.direcciones = response || [];
 
       for (let direccion of this.direcciones) {
         if (direccion.direccionPrincipal === true) {
@@ -128,9 +133,9 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  calcularEdad(fechaNacimiento: string): number {
+  calcularEdad(fechaNacimiento: string | null): number {
     const hoy = new Date();
-    const nacimiento = new Date(fechaNacimiento);
+    const nacimiento = fechaNacimiento ? new Date(fechaNacimiento) : hoy;
 
     let edad = hoy.getFullYear() - nacimiento.getFullYear();
 
@@ -138,22 +143,15 @@ export class UserListComponent implements OnInit {
   }
 
   iconoGenero() {
-
     for (let usuario of this.usuarios) {
-
-      if (usuario.genero.id == '1') {
-
+      const gid = usuario.genero?.id;
+      if (gid === 1) {
         usuario.icono = 'assets/images/Male.JPG';
-
-      } else if (usuario.genero.id == '2') {
-
+      } else if (gid === 2) {
         usuario.icono = 'assets/images/Female.JPG';
-
       } else {
-
         usuario.icono = 'assets/images/Other.png';
       }
-
     }
   }
 
@@ -175,22 +173,10 @@ export class UserListComponent implements OnInit {
 
   openCreatePopup() {
     this.modoPopup = 'create';
-    this.popupUser = {
-      nickUsuario: '',
-      contrasena: '',
-      fechaHoraCreacion: new Date().toISOString().substring(0, 10),
-      nombre: '',
-      primerApellido: '',
-      segundoApellido: '',
-      fechaNacimiento: '',
-      genero: { id: '1', nombre: 'Masculino' },
-      puestoDeTrabajo: { id: '1', nombre: 'Picador' },
-      horaDesayuno: '',
-      esAdmin: false
-    };
+    this.popupUser = JSON.parse(JSON.stringify(usuarioInicial));
   }
 
-  openEditPopup(usuario: any) {
+  openEditPopup(usuario: Usuario) {
     this.modoPopup = 'edit';
     this.popupUser = JSON.parse(JSON.stringify(usuario));
   }
@@ -202,7 +188,7 @@ export class UserListComponent implements OnInit {
     this.openEditPopup(this.usuarioSeleccionado);
   }
 
-  async onUserSave(usuario: any) {
+  async onUserSave(usuario: Usuario) {
     if (this.modoPopup === 'create') {
       await this.crearUsuario(usuario);
     } else {
@@ -212,12 +198,12 @@ export class UserListComponent implements OnInit {
     await this.ngOnInit();
   }
 
-  async crearUsuario(usuario: any) {
+  async crearUsuario(usuario: Usuario) {
     console.log('Crear usuario:', usuario);
      await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 
-  async modificarUsuario(usuario: any) {
+  async modificarUsuario(usuario: Usuario) {
     console.log('Modificar usuario:', usuario);
     // Aquí puedes llamar a un método del servicio para modificar el usuario:
     // await this.userService.modificarUsuario(usuario, this.nickUsuario, this.contrasena);
