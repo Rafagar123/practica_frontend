@@ -33,81 +33,81 @@ export class UserListComponent implements OnInit {
     this.userService = userService;
   }
 
-async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
 
-  this.nickUsuario = localStorage.getItem('nickUsuario') || '';
-  this.contrasena = localStorage.getItem('contrasena') || '';
+    this.nickUsuario = localStorage.getItem('nickUsuario') || '';
+    this.contrasena = localStorage.getItem('contrasena') || '';
 
-  try {
-    const response = await this.userService.obtenerUsuarios(
-      this.nickUsuario,
-      this.contrasena
-    );
+    try {
+      const response = await this.userService.obtenerUsuarios(
+        this.nickUsuario,
+        this.contrasena
+      );
 
-    this.usuarios = response || [];
-    await this.cargarDirecciones();
-    this.iconoGenero();
+      this.usuarios = response || [];
+      await this.cargarDirecciones();
+      this.iconoGenero();
 
-  } catch (error) {
-    console.error('Error real:', error);
+    } catch (error) {
+      console.error('Error real:', error);
+    }
   }
-}
 
 
   async cargarDirecciones() {
 
-  const nick = localStorage.getItem('nickUsuario') || '';
-  const pass = localStorage.getItem('contrasena') || '';
+    const nick = localStorage.getItem('nickUsuario') || '';
+    const pass = localStorage.getItem('contrasena') || '';
 
-  for (let usuario of this.usuarios) {
-    if (usuario.id == null) {
-      continue;
-    }
-
-    let contador: number = 0;
-
-    try {
-
-      const direcciones = await this.userService.obtenerDireccionPrincipal(
-        usuario.id,
-        nick,
-        pass
-      );
-
-      let direccionPrincipalObj = null;
-
-      for (let direccion of direcciones) {
-
-        if (direccion.direccionPrincipal === true) {
-
-          direccionPrincipalObj = {
-            nombreCalle: direccion.nombreCalle,
-            numeroCalle: direccion.numeroCalle
-          };
-
-        } else {
-          contador += 1;
-        }
+    for (let usuario of this.usuarios) {
+      if (usuario.id == null) {
+        continue;
       }
 
-      usuario.direccionPrincipal = direccionPrincipalObj || {
-        nombreCalle: 'Sin dirección',
-        numeroCalle: ''
-      };
+      let contador: number = 0;
 
-      usuario.direccionesExtra = contador;
+      try {
 
-    } catch (error) {
+        const direcciones = await this.userService.obtenerDireccionPrincipal(
+          usuario.id,
+          nick,
+          pass
+        );
 
-      console.error('Error obteniendo dirección:', error);
+        let direccionPrincipalObj = null;
 
-      usuario.direccionPrincipal = {
-        nombreCalle: 'Error',
-        numeroCalle: ''
-      };
+        for (let direccion of direcciones) {
+
+          if (direccion.direccionPrincipal === true) {
+
+            direccionPrincipalObj = {
+              nombreCalle: direccion.nombreCalle,
+              numeroCalle: direccion.numeroCalle
+            };
+
+          } else {
+            contador += 1;
+          }
+        }
+
+        usuario.direccionPrincipal = direccionPrincipalObj || {
+          nombreCalle: 'Sin dirección',
+          numeroCalle: ''
+        };
+
+        usuario.direccionesExtra = contador;
+
+      } catch (error) {
+
+        console.error('Error obteniendo dirección:', error);
+
+        usuario.direccionPrincipal = {
+          nombreCalle: 'Error',
+          numeroCalle: ''
+        };
+      }
     }
   }
-}
   async obtenerDireccionPrincipal(usuarioId: number): Promise<string | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
@@ -200,12 +200,27 @@ async ngOnInit(): Promise<void> {
 
   async crearUsuario(usuario: Usuario) {
     console.log('Crear usuario:', usuario);
-     await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+    await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 
   async editarUsuario(usuario: Usuario) {
     console.log('Modificar usuario:', usuario);
     await this.userService.editarUsuario(usuario, this.nickUsuario, this.contrasena);
   }
+
+  async eliminarUsuario() {
+
+    if (!this.usuarioSeleccionado?.id) {
+      return;
+    }
+
+    await this.userService.eliminarUsuario(
+      this.usuarioSeleccionado.id,
+      this.nickUsuario,
+      this.contrasena
+    );
+    await this.ngOnInit();
+  }
+
 }
 

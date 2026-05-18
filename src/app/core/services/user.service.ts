@@ -191,4 +191,20 @@ export class UserService {
     }
   }
 
+    async eliminarUsuario(usuarioId: number, nickUsuario: string, contrasena: string) {
+    let params = new HttpParams()
+      .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
+      .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
+    return await to(
+      this.http
+        .delete<any>(
+          `${ConstUrls.API_URL}/api/v1/usuarios/usuario/${usuarioId}`,
+          {
+            params: params
+          }
+        )
+        .toPromise()
+    )
+  }
+
 }
