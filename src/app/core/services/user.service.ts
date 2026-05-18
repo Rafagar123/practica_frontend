@@ -86,18 +86,8 @@ export class UserService {
     )
   }
 
-  async crearUsuario(
-    body: Usuario,
-    nickUsuario: string,
-    contrasena: string
-  ) {
-
+  async crearUsuario(body: Usuario, nickUsuario: string, contrasena: string) {
     try {
-
-      // Validación básica
-      if (!nickUsuario || !contrasena) {
-        throw new Error('Las credenciales no pueden estar vacías');
-      }
 
       const params = new HttpParams()
         .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
@@ -114,12 +104,10 @@ export class UserService {
         esAdmin: body.esAdmin
       };
 
-      // LocalDate (Spring Boot)
       if (body.fechaNacimiento) {
         sanitizedBody.fechaNacimiento = body.fechaNacimiento;
       }
 
-      // LocalTime (Spring Boot -> HH:mm:ss)
       if (
         typeof body.horaDesayuno === 'string' &&
         body.horaDesayuno.trim() !== ''
@@ -130,11 +118,6 @@ export class UserService {
             ? `${body.horaDesayuno}:00`
             : body.horaDesayuno;
       }
-
-      console.log('PARAMS:', {
-        nickUsuario,
-        contrasena
-      });
 
       console.log('BODY ENVIADO:', sanitizedBody);
 
@@ -147,15 +130,61 @@ export class UserService {
           }
         )
       );
-
-      console.log('RESPUESTA OK:', response);
-
       return response;
-
     } catch (error) {
-
       console.error('ERROR COMPLETO:', error);
+      throw error;
+    }
+  }
 
+    async editarUsuario(body: Usuario, nickUsuario: string, contrasena: string) {
+    try {
+
+      const params = new HttpParams()
+        .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
+        .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
+
+      const sanitizedBody: any = {
+        id: body.id,
+        nickUsuario: body.nickUsuario,
+        contrasena: body.contrasena,
+        genero: body.genero,
+        nombre: body.nombre,
+        primerApellido: body.primerApellido,
+        segundoApellido: body.segundoApellido,
+        puestoDeTrabajo: body.puestoDeTrabajo,
+        esAdmin: body.esAdmin
+      };
+
+      if (body.fechaNacimiento) {
+        sanitizedBody.fechaNacimiento = body.fechaNacimiento;
+      }
+
+      if (
+        typeof body.horaDesayuno === 'string' &&
+        body.horaDesayuno.trim() !== ''
+      ) {
+
+        sanitizedBody.horaDesayuno =
+          body.horaDesayuno.length === 5
+            ? `${body.horaDesayuno}:00`
+            : body.horaDesayuno;
+      }
+
+      console.log('BODY ENVIADO:', sanitizedBody);
+
+      const response = await firstValueFrom(
+        this.http.post<any>(
+          `${ConstUrls.API_URL}/api/v1/usuarios/usuario/${body.id}`,
+          sanitizedBody,
+          {
+            params
+          }
+        )
+      );
+      return response;
+    } catch (error) {
+      console.error('ERROR COMPLETO:', error);
       throw error;
     }
   }

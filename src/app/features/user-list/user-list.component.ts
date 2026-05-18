@@ -205,8 +205,7 @@ async ngOnInit(): Promise<void> {
 
   async modificarUsuario(usuario: Usuario) {
     console.log('Modificar usuario:', usuario);
-    // Aquí puedes llamar a un método del servicio para modificar el usuario:
-    // await this.userService.modificarUsuario(usuario, this.nickUsuario, this.contrasena);
+    await this.userService.editarUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 }
 

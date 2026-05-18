@@ -160,3 +160,8 @@ select {
 .img-gender {
   max-height: 25px;
 }
+
+.table-container-overflow {
+  max-height: 400px;
+  overflow-y: auto;
+}
