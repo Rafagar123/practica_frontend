@@ -138,6 +138,6 @@ input,textarea, select {
 }
 
 .table-container-overflow {
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
 }
