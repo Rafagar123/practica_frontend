@@ -33,8 +33,8 @@
             </tr>
         </thead>
 
-        <tbody>
-            <tr *ngFor="let usuario of usuarios">
+        <tbody id="table-body">
+            <tr *ngFor="let usuario of usuarios" [class.selected]="usuarioSeleccionado === usuario">
                 <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario">
                 </td>
                 <td><img [src]="usuario.icono" class="img-gender"></td>

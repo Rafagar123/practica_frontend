@@ -29,6 +29,8 @@ export class UserListComponent implements OnInit {
   popupUser: Usuario | null = null;
   usuarioSeleccionado: Usuario | null = null;
 
+
+
   constructor(private router: Router, userService: UserService) {
     this.userService = userService;
   }
@@ -45,6 +47,9 @@ export class UserListComponent implements OnInit {
       );
 
       this.usuarios = response || [];
+
+      this.usuarioSeleccionado = this.usuarios[0];
+      
       await this.cargarDirecciones();
       this.iconoGenero();
 
