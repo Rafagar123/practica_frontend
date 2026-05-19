@@ -136,3 +136,8 @@ input,textarea, select {
     border: 1px solid #dddddd;
     background-color: #fff;
 }
+
+.table-container-overflow {
+  max-height: 200px;
+  overflow-y: auto;
+}

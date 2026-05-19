@@ -5,6 +5,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { Usuario } from 'src/app/core/models/user.model';
 import { Genero } from 'src/app/core/models/genero.model';
 import { PuestoDeTrabajo } from 'src/app/core/models/puestodetrabajo.model';
+import { Direccion } from 'src/app/core/models/direccion.model';
 
 @Component({
     selector: 'app-user-popup',
@@ -24,6 +25,8 @@ export class UserPopupComponent implements OnInit {
     @Input() generos: Genero[] = [];
     @Input() puestos: PuestoDeTrabajo[] = [];
 
+    direcciones: Direccion[] = [];
+
     constructor(userService: UserService) {
         this.userService = userService;
     }
@@ -32,6 +35,7 @@ export class UserPopupComponent implements OnInit {
         this.user = this.user || {};
         await this.cargarGeneros();
         await this.cargarPuestos();
+        await this.cargarDirecciones();
     }
 
     async onSave() {
@@ -47,7 +51,7 @@ export class UserPopupComponent implements OnInit {
         const nick = localStorage.getItem('nickUsuario') || '';
         const contrasena = localStorage.getItem('contrasena') || '';
         try {
-            const response = await this.userService.obtenerGeneros(nick, contrasena);
+            const response = await this.userService.obtenerGeneros( nick, contrasena);
             this.generos = response || [];
             console.log('Generos cargados correctamente');
         } catch (error) {
@@ -67,6 +71,18 @@ export class UserPopupComponent implements OnInit {
             console.error('Error al cargar puestos:', error);
         }
 
+    }
+
+    async cargarDirecciones(): Promise<void> {
+        const nick = localStorage.getItem('nickUsuario') || '';
+        const contrasena = localStorage.getItem('contrasena') || '';
+        try {
+            const response = await this.userService.obtenerDirecciones(this.user.id, nick, contrasena);
+            this.direcciones = response || [];
+            console.log('Direcciones cargadas correctamente');
+        } catch (error) {
+            console.error('Error al cargar direcciones:', error);
+        }
     }
 
     compararGeneros(g1: Genero | null, g2: Genero | null): boolean {

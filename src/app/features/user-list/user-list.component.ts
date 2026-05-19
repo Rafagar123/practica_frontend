@@ -49,7 +49,6 @@ export class UserListComponent implements OnInit {
       this.usuarios = response || [];
 
       this.usuarioSeleccionado = this.usuarios[0];
-      
       await this.cargarDirecciones();
       this.iconoGenero();
 
@@ -73,7 +72,7 @@ export class UserListComponent implements OnInit {
 
       try {
 
-        const direcciones = await this.userService.obtenerDireccionPrincipal(
+        const direcciones = await this.userService.obtenerDirecciones(
           usuario.id,
           nick,
           pass
@@ -120,7 +119,7 @@ export class UserListComponent implements OnInit {
     let direccionPrincipal: string | null = null;
 
     try {
-      const response = await this.userService.obtenerDireccionPrincipal(usuarioId, nickUsuario, contrasena);
+      const response = await this.userService.obtenerDirecciones(usuarioId, nickUsuario, contrasena);
 
       this.direcciones = response || [];
 

@@ -38,7 +38,7 @@ export class UserService {
     )
   }
 
-  async obtenerDireccionPrincipal(usuarioId: number, nickUsuario: string, contrasena: string) {
+  async obtenerDirecciones(usuarioId: number, nickUsuario: string, contrasena: string) {
     let params = new HttpParams()
       .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
       .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);

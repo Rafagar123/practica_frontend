@@ -76,6 +76,28 @@
                     </select>
                 </div>
             </div>
+            <div *ngIf="mode === 'edit'" class="table-container-overflow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Principal</th>
+                            <th>Nombre de la calle</th>
+                            <th>Número</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="table-body">
+                        <tr *ngFor="let direccion of direcciones">
+                            <td><input type="radio" name="direccionSeleccionada"></td>
+                            <td><input type="radio" name="direccionPrincipal"></td>
+                            <td> {{ direccion.nombreCalle }}</td>
+                            <td> {{ direccion.numeroCalle ?? '-' }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </form>
     </div>
     <div class="container-button-right">
