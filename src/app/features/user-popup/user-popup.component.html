@@ -86,15 +86,13 @@
                             <th>Número</th>
                         </tr>
                     </thead>
-
                     <tbody id="table-body">
                         <tr *ngFor="let direccion of direcciones">
-                            <td><input type="radio" name="direccionSeleccionada"></td>
+                            <td><input type="radio" name="direccionSeleccionada" [(ngModel)]="direccionSeleccionada" [value]="direccion"></td>
                             <td><input type="radio" name="direccionPrincipal" [checked]="direccion.direccionPrincipal"></td>
                             <td> {{ direccion.nombreCalle }}</td>
                             <td> {{ direccion.numeroCalle ?? '-' }}</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>

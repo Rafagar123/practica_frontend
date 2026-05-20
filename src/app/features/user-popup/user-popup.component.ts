@@ -26,6 +26,7 @@ export class UserPopupComponent implements OnInit {
     @Input() puestos: PuestoDeTrabajo[] = [];
 
     direcciones: Direccion[] = [];
+    direccionSeleccionada: Direccion | null = null;
 
     constructor(userService: UserService) {
         this.userService = userService;
