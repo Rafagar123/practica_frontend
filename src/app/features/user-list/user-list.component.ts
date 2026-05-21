@@ -112,6 +112,7 @@ export class UserListComponent implements OnInit {
       }
     }
   }
+
   async obtenerDireccionPrincipal(usuarioId: number): Promise<string | null> {
 
     const nickUsuario = localStorage.getItem('nickUsuario') || '';
@@ -192,11 +193,15 @@ export class UserListComponent implements OnInit {
     this.openEditPopup(this.usuarioSeleccionado);
   }
 
-  async onUserSave(usuario: Usuario) {
+  async onUserSave(data: any) {
+    const usuario = data.usuario;
+    const direcciones = data.direcciones;
+
     if (this.modoPopup === 'create') {
       await this.crearUsuario(usuario);
     } else {
       await this.editarUsuario(usuario);
+      await this.guardarDirecciones(direcciones);
     }
     this.modoPopup = 'CLOSED';
     await this.ngOnInit();
@@ -224,6 +229,19 @@ export class UserListComponent implements OnInit {
       this.contrasena
     );
     await this.ngOnInit();
+  }
+
+  async guardarDirecciones(direcciones: Direccion[]) {
+
+    for (let direccion of direcciones) {
+
+      await this.userService.editarDireccion(
+        direccion,
+        this.nickUsuario,
+        this.contrasena
+      );
+      console.log("Objeto enviado:", direccion);
+    }
   }
 
 }

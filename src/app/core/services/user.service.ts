@@ -138,7 +138,7 @@ export class UserService {
     }
   }
 
-    async editarUsuario(body: Usuario, nickUsuario: string, contrasena: string) {
+  async editarUsuario(body: Usuario, nickUsuario: string, contrasena: string) {
     try {
 
       const params = new HttpParams()
@@ -191,7 +191,7 @@ export class UserService {
     }
   }
 
-    async eliminarUsuario(usuarioId: number, nickUsuario: string, contrasena: string) {
+  async eliminarUsuario(usuarioId: number, nickUsuario: string, contrasena: string) {
     let params = new HttpParams()
       .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
       .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
@@ -214,18 +214,21 @@ export class UserService {
         .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
         .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
 
+      const direccionId = body.id ?? body.usuarioId;
+      if (direccionId == null) {
+        throw new Error('El ID de la dirección es obligatorio para editarla');
+      }
+
       console.log('BODY ENVIADO:', body);
 
       const response = await firstValueFrom(
         this.http.put<any>(
-          `${ConstUrls.API_URL}/api/v1/direcciones/direccion/${body.usuarioId}`,
+          `${ConstUrls.API_URL}/api/v1/direcciones/direccion/${direccionId}`,
           body,
           {
             params
           }
-        )
-      );
-      console.log('Respuesta del servidor:', response);
+        ));
       return response;
     } catch (error) {
       console.error('ERROR COMPLETO:', error);

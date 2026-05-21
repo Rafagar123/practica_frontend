@@ -18,15 +18,18 @@ export class UserPopupComponent implements OnInit {
 
     @Input() mode: 'create' | 'edit' = 'create';
     @Input() user: Usuario | any = {};
-    @Output() save = new EventEmitter<Usuario>();
+    @Output() save = new EventEmitter<any>();
     @Output() cerrarPopUpOk = new EventEmitter<void>();
     @Output() cerrarPopUpCancel = new EventEmitter<void>();
-    userService: UserService;
     @Input() generos: Genero[] = [];
     @Input() puestos: PuestoDeTrabajo[] = [];
 
+    userService: UserService;
     direcciones: Direccion[] = [];
     direccionSeleccionada: Direccion | null = null;
+    direccionEditandoId: number | null = null;
+    direccionBorrandoId: number | null = null;
+    selectedDireccionPrincipalId: number | null = null;
 
     constructor(userService: UserService) {
         this.userService = userService;
@@ -36,11 +39,21 @@ export class UserPopupComponent implements OnInit {
         this.user = this.user || {};
         await this.cargarGeneros();
         await this.cargarPuestos();
-        await this.cargarDirecciones();
+        if (this.mode === 'edit') {
+            await this.cargarDirecciones();
+        }
     }
 
     async onSave() {
-        this.save.emit(this.user);
+        this.onPrincipalChange(this.selectedDireccionPrincipalId);
+
+        const payload = {
+            usuario: this.user,
+            direcciones: this.direcciones
+        };
+
+        this.save.emit(payload);
+
         this.cerrarPopUpOk.emit();
     }
 
@@ -52,7 +65,7 @@ export class UserPopupComponent implements OnInit {
         const nick = localStorage.getItem('nickUsuario') || '';
         const contrasena = localStorage.getItem('contrasena') || '';
         try {
-            const response = await this.userService.obtenerGeneros( nick, contrasena);
+            const response = await this.userService.obtenerGeneros(nick, contrasena);
             this.generos = response || [];
             console.log('Generos cargados correctamente');
         } catch (error) {
@@ -80,10 +93,18 @@ export class UserPopupComponent implements OnInit {
         try {
             const response = await this.userService.obtenerDirecciones(this.user.id, nick, contrasena);
             this.direcciones = response || [];
+            this.selectedDireccionPrincipalId = this.direcciones.find(d => d.direccionPrincipal)?.id ?? null;
             console.log('Direcciones cargadas correctamente');
         } catch (error) {
             console.error('Error al cargar direcciones:', error);
         }
+    }
+
+    onPrincipalChange(selectedId: number | null): void {
+        this.selectedDireccionPrincipalId = selectedId;
+        this.direcciones.forEach(direccion => {
+            direccion.direccionPrincipal = selectedId !== null && direccion.id === selectedId;
+        });
     }
 
     compararGeneros(g1: Genero | null, g2: Genero | null): boolean {
@@ -93,4 +114,33 @@ export class UserPopupComponent implements OnInit {
     compararPuestos(p1: PuestoDeTrabajo | null, p2: PuestoDeTrabajo | null): boolean {
         return p1 && p2 ? p1.id === p2.id : p1 === p2;
     }
+
+    seleccionarDireccion(direccion: Direccion) {
+
+        this.direccionSeleccionada = direccion;
+    }
+
+    editarDireccionSeleccionada() {
+
+        if (!this.direccionSeleccionada?.id) {
+            return;
+        }
+
+        this.direccionEditandoId = this.direccionSeleccionada.id;
+    }
+
+    esDireccionEditando(direccion: Direccion): boolean {
+        return direccion.id === this.direccionEditandoId;
+    }
+
+    marcarComoPrincipal(direccionSeleccionada: Direccion) {
+
+        this.direcciones.forEach(direccion => {
+
+            direccion.direccionPrincipal = false;
+        });
+
+        direccionSeleccionada.direccionPrincipal = true;
+    }
+
 }

@@ -76,8 +76,20 @@
                     </select>
                 </div>
             </div>
-            <div *ngIf="mode === 'edit'" class="table-container-overflow">
-                <table>
+
+            <hr>
+            <h3>Direcciones:</h3>
+
+            <div *ngIf="mode === 'edit'">
+
+                <div class="container-button">
+
+                    <button type="button" class="main-button" (click)="editarDireccionSeleccionada()"> Editar
+                    </button>
+
+                </div>
+                <div class="table-container-overflow">
+                    <table>
                     <thead>
                         <tr>
                             <th></th>
@@ -88,13 +100,51 @@
                     </thead>
                     <tbody id="table-body">
                         <tr *ngFor="let direccion of direcciones">
-                            <td><input type="radio" name="direccionSeleccionada" [(ngModel)]="direccionSeleccionada" [value]="direccion"></td>
-                            <td><input type="radio" name="direccionPrincipal" [checked]="direccion.direccionPrincipal"></td>
-                            <td> {{ direccion.nombreCalle }}</td>
-                            <td> {{ direccion.numeroCalle ?? '-' }}</td>
+                            <td>
+
+                                <input type="radio" name="direccionSeleccionada"
+                                    [checked]="direccionSeleccionada === direccion"
+                                    (change)="seleccionarDireccion(direccion)">
+
+                            </td>
+                            <td>
+
+                                <input type="radio" name="direccionPrincipal" [value]="direccion.id"
+                                    [checked]="direccion.direccionPrincipal"
+                                    [disabled]="direccionEditandoId !== direccion.id"
+                                    (change)="onPrincipalChange(direccion.id)">
+
+                            </td>
+                            <td>
+
+                                <span *ngIf="!esDireccionEditando(direccion)">
+
+                                    {{ direccion.nombreCalle }}
+
+                                </span>
+
+                                <input *ngIf="esDireccionEditando(direccion)" type="text" class="form-control"
+                                    [(ngModel)]="direccion.nombreCalle" [name]="'nombreCalle' + direccion.id">
+
+                            </td>
+
+                            <td>
+
+                                <span *ngIf="!esDireccionEditando(direccion)">
+
+                                    {{ direccion.numeroCalle ?? '-' }}
+
+                                </span>
+
+                                <input *ngIf="esDireccionEditando(direccion)" type="number" class="form-control"
+                                    [(ngModel)]="direccion.numeroCalle" [name]="'numeroCalle' + direccion.id">
+
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
         </form>
     </div>
