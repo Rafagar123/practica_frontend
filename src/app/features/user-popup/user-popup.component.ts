@@ -49,7 +49,8 @@ export class UserPopupComponent implements OnInit {
 
         const payload = {
             usuario: this.user,
-            direcciones: this.direcciones
+            direcciones: this.direcciones,
+            idBorrar: this.direccionBorrandoId
         };
 
         this.save.emit(payload);
@@ -141,6 +142,15 @@ export class UserPopupComponent implements OnInit {
         });
 
         direccionSeleccionada.direccionPrincipal = true;
+    }
+
+    borrarDireccionSeleccionada() {
+
+        if (!this.direccionSeleccionada?.id) {
+            return;
+        }
+
+        this.direccionBorrandoId = this.direccionSeleccionada.id;
     }
 
 }

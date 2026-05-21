@@ -196,12 +196,14 @@ export class UserListComponent implements OnInit {
   async onUserSave(data: any) {
     const usuario = data.usuario;
     const direcciones = data.direcciones;
+    const idBorrar = data.idBorrar;
 
     if (this.modoPopup === 'create') {
       await this.crearUsuario(usuario);
     } else {
       await this.editarUsuario(usuario);
       await this.guardarDirecciones(direcciones);
+      await this.eliminarDireccion(idBorrar);
     }
     this.modoPopup = 'CLOSED';
     await this.ngOnInit();
@@ -240,8 +242,20 @@ export class UserListComponent implements OnInit {
         this.nickUsuario,
         this.contrasena
       );
-      console.log("Objeto enviado:", direccion);
     }
+  }
+
+    async eliminarDireccion(idBorrar: number) {
+
+    if (idBorrar === null) {
+      return;
+    }
+    await this.userService.eliminarDireccion(
+      idBorrar,
+      this.nickUsuario,
+      this.contrasena
+    );
+    await this.ngOnInit();
   }
 
 }
