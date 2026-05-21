@@ -83,6 +83,7 @@
             <div *ngIf="mode === 'edit'">
 
                 <div class="container-button">
+                    <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>
                     <button type="button" class="main-button" (click)="editarDireccionSeleccionada()"> Editar </button>
                     <button type="button" class="main-button" (click)="borrarDireccionSeleccionada()"><img
                             src="assets/images/DeleteIcon.JPG" alt="eliminar" class="img-icon"></button>
@@ -143,6 +144,33 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div *ngIf="mostrarCrear" class="form-row create-direccion-row">
+                    <div class="form-column">
+                        <label for="nombreCalle">Nombre de la calle: </label>
+                        <input class="form-control" type="text" id="nombreCalle" name="nombreCalle"
+                            [(ngModel)]= "direccionCreadaEnEditar.nombreCalle">
+                    </div>
+                    <div class="form-column">
+                        <label for="numeroCalle">Número de la calle: </label>
+                        <input class="form-control" type="text" id="numeroCalle" name="numeroCalle"
+                            [(ngModel)]= "direccionCreadaEnEditar.numeroCalle">
+                    </div>
+
+
+
+<!--  <div class="form-column">
+                    <label for="primerApellido">Primer apellido:</label>
+                    <input class="form-control" type="text" id="primerApellido" name="primerApellido"
+                        [(ngModel)]="user.primerApellido">
+                </div>
+                <div class="form-column">
+                    <label for="segundoApellido">Segundo apellido:</label>
+                    <input class="form-control" type="text" id="segundoApellido" name="segundoApellido"
+                        [(ngModel)]="user.segundoApellido">
+                </div>
+            </div>
+--> 
                 </div>
             </div>
         </form>

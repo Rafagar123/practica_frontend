@@ -30,6 +30,9 @@ export class UserPopupComponent implements OnInit {
     direccionEditandoId: number | null = null;
     direccionBorrandoId: number | null = null;
     selectedDireccionPrincipalId: number | null = null;
+    mostrarCrear = false;
+    direccionCreadaEnEditar: Direccion | null = null;
+
 
     constructor(userService: UserService) {
         this.userService = userService;
@@ -50,7 +53,8 @@ export class UserPopupComponent implements OnInit {
         const payload = {
             usuario: this.user,
             direcciones: this.direcciones,
-            idBorrar: this.direccionBorrandoId
+            idBorrar: this.direccionBorrandoId,
+            direccionCreadaEnEditar: this.direccionCreadaEnEditar
         };
 
         this.save.emit(payload);
@@ -151,6 +155,22 @@ export class UserPopupComponent implements OnInit {
         }
 
         this.direccionBorrandoId = this.direccionSeleccionada.id;
+    }
+
+    muestraCrear(): void {
+        this.mostrarCrear = !this.mostrarCrear;
+        console.log("Se cambio mostrarCrear");
+
+        if (this.mostrarCrear && !this.direccionCreadaEnEditar) {
+
+            this.direccionCreadaEnEditar = {
+                id: 0,
+                nombreCalle: '',
+                numeroCalle: 0,
+                direccionPrincipal: false,
+                usuarioId: this.user.id
+            };
+        }
     }
 
 }

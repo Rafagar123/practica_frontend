@@ -252,4 +252,29 @@ export class UserService {
     )
   }
 
+   async crearDireccion(body: Direccion, nickUsuario: string, contrasena: string) {
+    try {
+
+      const params = new HttpParams()
+        .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
+        .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
+
+      console.log('BODY ENVIADO:', body);
+
+      const response = await firstValueFrom(
+        this.http.post<any>(
+          `${ConstUrls.API_URL}/api/v1/direcciones/direccion/${body.usuarioId}`,
+          body,
+          {
+            params
+          }
+        )
+      );
+      console.log('Respuesta del servidor:', response);
+      return response;
+    } catch (error) {
+      console.error('ERROR COMPLETO:', error);
+      throw error;
+    }}
+
 }

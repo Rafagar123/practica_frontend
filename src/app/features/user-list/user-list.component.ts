@@ -197,6 +197,7 @@ export class UserListComponent implements OnInit {
     const usuario = data.usuario;
     const direcciones = data.direcciones;
     const idBorrar = data.idBorrar;
+    const direccionCreadaEnEditar = data.direccionCreadaEnEditar;
 
     if (this.modoPopup === 'create') {
       await this.crearUsuario(usuario);
@@ -204,6 +205,7 @@ export class UserListComponent implements OnInit {
       await this.editarUsuario(usuario);
       await this.guardarDirecciones(direcciones);
       await this.eliminarDireccion(idBorrar);
+      await this.crearDireccion(direccionCreadaEnEditar);
     }
     this.modoPopup = 'CLOSED';
     await this.ngOnInit();
@@ -245,7 +247,7 @@ export class UserListComponent implements OnInit {
     }
   }
 
-    async eliminarDireccion(idBorrar: number) {
+  async eliminarDireccion(idBorrar: number) {
 
     if (idBorrar === null) {
       return;
@@ -258,5 +260,16 @@ export class UserListComponent implements OnInit {
     await this.ngOnInit();
   }
 
+  async crearDireccion(direccionCreadaEnEditar: Direccion | null) {
+    if (direccionCreadaEnEditar === null) {
+      return;
+    }
+    await this.userService.crearDireccion(
+      direccionCreadaEnEditar,
+      this.nickUsuario,
+      this.contrasena
+    );
+    await this.ngOnInit();
+  }
 }
 
