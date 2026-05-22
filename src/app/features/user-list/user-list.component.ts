@@ -26,6 +26,7 @@ export class UserListComponent implements OnInit {
 
 
   modoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
+  anteriorModoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
   popupUser: Usuario | null = null;
   usuarioSeleccionado: Usuario | null = null;
 
@@ -179,11 +180,13 @@ export class UserListComponent implements OnInit {
   openCreatePopup() {
     this.modoPopup = 'create';
     this.popupUser = JSON.parse(JSON.stringify(usuarioInicial));
+    this.anteriorModoPopup = 'create';
   }
 
   openEditPopup(usuario: Usuario) {
     this.modoPopup = 'edit';
     this.popupUser = JSON.parse(JSON.stringify(usuario));
+    this.anteriorModoPopup = 'edit';
   }
 
   openEditPopupSelected() {
@@ -199,7 +202,7 @@ export class UserListComponent implements OnInit {
     const idBorrar = data.idBorrar;
     const direccionCreadaEnEditar = data.direccionCreadaEnEditar;
 
-    if (this.modoPopup === 'create') {
+    if (this.anteriorModoPopup === 'create') {
       const usuarioCreado = await this.crearUsuario(usuario);
       if (usuarioCreado.id != null) {
         await this.crearDireccion(
@@ -207,7 +210,7 @@ export class UserListComponent implements OnInit {
           usuarioCreado.id
         );
       }
-    } else {
+    } else if (this.anteriorModoPopup === 'edit'){
       await this.editarUsuario(usuario);
       await this.guardarDirecciones(direcciones);
       await this.eliminarDireccion(idBorrar);
@@ -277,7 +280,7 @@ export class UserListComponent implements OnInit {
       return;
     }
 
-    if (this.modoPopup === 'edit' && usuarioId) {
+    if (this.anteriorModoPopup === 'edit' && usuarioId) {
       await this.userService.crearDireccion(
         direccionCreadaEnEditar,
         this.nickUsuario,
@@ -285,7 +288,7 @@ export class UserListComponent implements OnInit {
       );
     }
 
-    if (this.modoPopup === 'create') {
+    if (this.anteriorModoPopup === 'create') {
       direccionCreadaEnEditar.usuarioId = usuarioId;
       await this.userService.crearDireccion(
         direccionCreadaEnEditar,
