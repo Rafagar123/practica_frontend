@@ -157,7 +157,6 @@ export class UserPopupComponent implements OnInit {
 
     muestraCrear(): void {
         this.mostrarCrear = !this.mostrarCrear;
-        console.log("Se cambio mostrarCrear");
 
         if (this.mostrarCrear && !this.direccionCreadaEnEditar) {
 

@@ -272,9 +272,11 @@ export class UserListComponent implements OnInit {
   async crearDireccion(direccionCreadaEnEditar: Direccion | null, usuarioId: number) {
     console.log('Direccion recibida:', direccionCreadaEnEditar);
     console.log('Usuario ID:', usuarioId);
+
     if (direccionCreadaEnEditar === null) {
       return;
     }
+
     if (this.modoPopup === 'edit' && usuarioId) {
       await this.userService.crearDireccion(
         direccionCreadaEnEditar,
@@ -291,7 +293,9 @@ export class UserListComponent implements OnInit {
         this.contrasena
       );
     }
+
     await this.ngOnInit();
+    
   }
 }
 
