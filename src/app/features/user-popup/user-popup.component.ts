@@ -56,9 +56,7 @@ export class UserPopupComponent implements OnInit {
             idBorrar: this.direccionBorrandoId,
             direccionCreadaEnEditar: this.direccionCreadaEnEditar
         };
-
         this.save.emit(payload);
-
         this.cerrarPopUpOk.emit();
     }
 
@@ -163,13 +161,23 @@ export class UserPopupComponent implements OnInit {
 
         if (this.mostrarCrear && !this.direccionCreadaEnEditar) {
 
-            this.direccionCreadaEnEditar = {
-                id: 0,
-                nombreCalle: '',
-                numeroCalle: 0,
-                direccionPrincipal: false,
-                usuarioId: this.user.id
-            };
+            if (this.mode === 'edit' && this.user.id) {
+                this.direccionCreadaEnEditar = {
+                    id: 0,
+                    nombreCalle: '',
+                    numeroCalle: 0,
+                    direccionPrincipal: false,
+                    usuarioId: this.user.id
+                }
+            } if (this.mode === 'create') {
+                this.direccionCreadaEnEditar = {
+                    id: 0,
+                    nombreCalle: '',
+                    numeroCalle: 0,
+                    direccionPrincipal: false,
+                    usuarioId: 0
+                }
+            }
         }
     }
 

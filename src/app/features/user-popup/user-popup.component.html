@@ -78,10 +78,37 @@
             </div>
 
             <hr>
-            <h3>Direcciones:</h3>
+            <h3>Direcciones: </h3>
+
+
+
+            <div *ngIf="mode === 'create'                                               ">
+                <div class="container-button">
+                    <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>
+                </div>
+                <div *ngIf="mostrarCrear" class="form-row create-direccion-row">
+
+                    <div class="form-column">
+                        <label for="direccionPrincipal">Dirección principal:</label>
+                        <input type="checkbox" id="direccionPrincipal"
+                            [(ngModel)]="direccionCreadaEnEditar.direccionPrincipal" name="direccionPrincipal">
+                    </div>
+                    <div class="form-column">
+                        <label for="nombreCalle">Nombre de la calle: </label>
+                        <input class="form-control" type="text" id="nombreCalle" name="nombreCalle"
+                            [(ngModel)]="direccionCreadaEnEditar.nombreCalle">
+                    </div>
+                    <div class="form-column">
+                        <label for="numeroCalle">Número de la calle: </label>
+                        <input class="form-control" type="text" id="numeroCalle" name="numeroCalle"
+                            [(ngModel)]="direccionCreadaEnEditar.numeroCalle">
+                    </div>
+                </div>
+            </div>
+
+
 
             <div *ngIf="mode === 'edit'">
-
                 <div class="container-button">
                     <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>
                     <button type="button" class="main-button" (click)="editarDireccionSeleccionada()"> Editar </button>
@@ -149,28 +176,13 @@
                     <div class="form-column">
                         <label for="nombreCalle">Nombre de la calle: </label>
                         <input class="form-control" type="text" id="nombreCalle" name="nombreCalle"
-                            [(ngModel)]= "direccionCreadaEnEditar.nombreCalle">
+                            [(ngModel)]="direccionCreadaEnEditar.nombreCalle">
                     </div>
                     <div class="form-column">
                         <label for="numeroCalle">Número de la calle: </label>
                         <input class="form-control" type="text" id="numeroCalle" name="numeroCalle"
-                            [(ngModel)]= "direccionCreadaEnEditar.numeroCalle">
+                            [(ngModel)]="direccionCreadaEnEditar.numeroCalle">
                     </div>
-
-
-
-<!--  <div class="form-column">
-                    <label for="primerApellido">Primer apellido:</label>
-                    <input class="form-control" type="text" id="primerApellido" name="primerApellido"
-                        [(ngModel)]="user.primerApellido">
-                </div>
-                <div class="form-column">
-                    <label for="segundoApellido">Segundo apellido:</label>
-                    <input class="form-control" type="text" id="segundoApellido" name="segundoApellido"
-                        [(ngModel)]="user.segundoApellido">
-                </div>
-            </div>
---> 
                 </div>
             </div>
         </form>

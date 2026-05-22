@@ -200,21 +200,30 @@ export class UserListComponent implements OnInit {
     const direccionCreadaEnEditar = data.direccionCreadaEnEditar;
 
     if (this.modoPopup === 'create') {
-      await this.crearUsuario(usuario);
+      const usuarioCreado = await this.crearUsuario(usuario);
+      if (usuarioCreado.id != null) {
+        await this.crearDireccion(
+          direccionCreadaEnEditar,
+          usuarioCreado.id
+        );
+      }
     } else {
       await this.editarUsuario(usuario);
       await this.guardarDirecciones(direcciones);
       await this.eliminarDireccion(idBorrar);
-      await this.crearDireccion(direccionCreadaEnEditar);
+      await this.crearDireccion(direccionCreadaEnEditar, usuario.id);
     }
     this.modoPopup = 'CLOSED';
     await this.ngOnInit();
   }
 
-  async crearUsuario(usuario: Usuario) {
+  async crearUsuario(usuario: Usuario): Promise<Usuario> {
     console.log('Crear usuario:', usuario);
-    await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+
+    const usuarioCreado = await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+    return usuarioCreado;
   }
+
 
   async editarUsuario(usuario: Usuario) {
     console.log('Modificar usuario:', usuario);
@@ -260,15 +269,28 @@ export class UserListComponent implements OnInit {
     await this.ngOnInit();
   }
 
-  async crearDireccion(direccionCreadaEnEditar: Direccion | null) {
+  async crearDireccion(direccionCreadaEnEditar: Direccion | null, usuarioId: number) {
+    console.log('Direccion recibida:', direccionCreadaEnEditar);
+    console.log('Usuario ID:', usuarioId);
     if (direccionCreadaEnEditar === null) {
       return;
     }
-    await this.userService.crearDireccion(
-      direccionCreadaEnEditar,
-      this.nickUsuario,
-      this.contrasena
-    );
+    if (this.modoPopup === 'edit' && usuarioId) {
+      await this.userService.crearDireccion(
+        direccionCreadaEnEditar,
+        this.nickUsuario,
+        this.contrasena
+      );
+    }
+
+    if (this.modoPopup === 'create') {
+      direccionCreadaEnEditar.usuarioId = usuarioId;
+      await this.userService.crearDireccion(
+        direccionCreadaEnEditar,
+        this.nickUsuario,
+        this.contrasena
+      );
+    }
     await this.ngOnInit();
   }
 }
