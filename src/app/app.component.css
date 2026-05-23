@@ -14,3 +14,24 @@ h2 {
     font-size: 36px;  /* tamaño de fuente grande */
     color: red;
 }
+
+header {
+  background-color: rgb(113, 82, 82);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.container-button-right {
+  margin-left: auto;
+  display: block;
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container-button-right:hover {
+  background-color: #555;
+}

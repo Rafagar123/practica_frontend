@@ -1,17 +1,13 @@
 <app-user-popup *ngIf="modoPopup !== 'CLOSED'" [mode]="modoPopup" [user]="popupUser" (save)="onUserSave($event)"
     (cerrarPopUpOk)="onCerrarPopUpOk()" (cerrarPopUpCancel)="onCerrarPopUpCancel()">
 </app-user-popup>
-<header>
-    <button (click)="volverLogin()" class="container-button-right">Log Out</button>
-    <h2>User List</h2>
-</header>
 <div class="container-button">
 
     <button type="button" (click)="openCreatePopup()" class="main-button">Crear usuario</button>
     <button type="button" [disabled]="!usuarioSeleccionado" (click)="openEditPopupSelected()" class="main-button">Editar
         usuario</button>
-    <button type= "button" [disabled]="!usuarioSeleccionado"class="button main-button-icon" (click)="eliminarUsuario()"><img src="assets/images/DeleteIcon.JPG"
-            alt="eliminar" class="img-icon"></button>
+    <button type="button" [disabled]="!usuarioSeleccionado" class="button main-button-icon"
+        (click)="eliminarUsuario()"><img src="assets/images/DeleteIcon.JPG" alt="eliminar" class="img-icon"></button>
 </div>
 <div class="table-container-overflow">
     <table>

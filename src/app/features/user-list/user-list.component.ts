@@ -161,9 +161,7 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  volverLogin() {
-    this.router.navigate(['/login']);
-  }
+
 
   onCerrarPopUpOk() {
     this.modoPopup = 'CLOSED';
