@@ -147,8 +147,9 @@ export class UserPopupComponent implements OnInit {
     }
 
     borrarDireccionSeleccionada() {
+        var resultado = confirm("¿Estás seguro de que deseas eliminar esta dirección?");
 
-        if (!this.direccionSeleccionada?.id) {
+        if (!this.direccionSeleccionada?.id || !resultado) {
             return;
         }
 

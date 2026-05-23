@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core/services/login.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrls: ['./login.component.css'],
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    CommonModule
   ]
 })
 export class LoginComponent {
@@ -18,6 +20,8 @@ export class LoginComponent {
   loginService: LoginService;
   nickUsuario: string = '';
   contrasena: string = '';
+
+  mensajeError: string = '';
 
   constructor(private router: Router, loginService: LoginService) {
     this.loginService = loginService;
@@ -35,7 +39,7 @@ export class LoginComponent {
       this.router.navigate(['/usuarios']);
     } else {
       console.log("Login failed");
-      alert("Usuario o contraseña incorrectos"); 
+      this.mensajeError = "Usuario o contraseña incorrectos";
     }
     console.log("Login result:", result);
   }

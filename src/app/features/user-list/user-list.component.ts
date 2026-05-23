@@ -235,7 +235,9 @@ export class UserListComponent implements OnInit {
 
   async eliminarUsuario() {
 
-    if (!this.usuarioSeleccionado?.id) {
+    var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
+    
+    if (!this.usuarioSeleccionado?.id || !resultado) {
       return;
     }
 

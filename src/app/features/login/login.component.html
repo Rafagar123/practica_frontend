@@ -9,6 +9,7 @@
         <input type="password" id="contrasena" name="contrasena" [(ngModel)]="contrasena">
     </div>
 
+    <p *ngIf="mensajeError" class="errorClass"> {{ mensajeError }} </p>
+
     <button class="login-button" (click)="login()">Iniciar Sesion</button>
-    <!-- @TODO: Implement login form here -->
 </div>
