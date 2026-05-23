@@ -1,7 +1,7 @@
 <div class="dialog-overlay"></div>
 <div class="dialog-box">
     <div class="dialog-title">
-        <h2>{{ mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}</h2>
+        <h3 class="form-title">{{ mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}</h3>
     </div>
     <div class="form-control-table">
         <form (ngSubmit)="onSave()">
@@ -78,10 +78,7 @@
             </div>
 
             <hr>
-            <h3>Direcciones: </h3>
-
-
-
+            <h3 class="form-title">Direcciones: </h3>
             <div *ngIf="mode === 'create'                                               ">
                 <div class="container-button">
                     <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>

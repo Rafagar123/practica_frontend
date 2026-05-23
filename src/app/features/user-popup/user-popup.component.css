@@ -60,6 +60,9 @@ tr:nth-child(even) {background-color: #f7cecc;}
     display: flex; /* alinear horizontalmente */
     gap: 10px;
     margin-bottom: .8rem;
+    margin-top: 0;
+    width: 100%;
+    clear: both;
 }
 
 .main-button, .main-button-icon {
@@ -87,6 +90,12 @@ tr:nth-child(even) {background-color: #f7cecc;}
 .container-button-right {
     padding: 1rem 0rem;
     float: right;
+}
+
+.form-title {
+    position: relative;
+    float:left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-row {
