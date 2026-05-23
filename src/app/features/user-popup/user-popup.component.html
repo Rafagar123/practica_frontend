@@ -19,7 +19,7 @@
                 <div class="form-column">
                     <label for="fechaCreacion">Fecha de creación:</label>
                     <input class="form-control" type="text" id="fechaCreacion" name="fechaCreacion"
-                        [value]="user.fechaHoraCreacion?.replace('T', ' ')" disabled>
+                        [value]="user.fechaHoraCreacion?.replace('T', ' ').slice(0, 16)" disabled>
                 </div>
             </div>
 

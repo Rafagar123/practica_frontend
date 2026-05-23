@@ -35,13 +35,17 @@
                 </td>
                 <td><img [src]="usuario.icono" class="img-gender"></td>
                 <td>{{ usuario.nickUsuario }}</td>
-                <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }} </td>
-                <td>{{ usuario.fechaHoraCreacion ? usuario.fechaHoraCreacion.replace('T', ' ') : '' }}</td>
+                <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }}</td>
+                <td>{{ usuario.fechaHoraCreacion ? usuario.fechaHoraCreacion.replace('T', ' ').slice(0, 16): '' }}</td>
                 <td>{{ calcularEdad(usuario.fechaNacimiento) }}</td>
-                <td>{{ usuario.horaDesayuno || '' }}</td>
+                <td>{{ usuario.horaDesayuno.slice(0,5) || '' }}</td>
                 <td>{{ usuario.puestoDeTrabajo?.nombre || 'Sin puesto' }}</td>
-                <td>{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{
-                    usuario.direccionPrincipal?.numeroCalle || '' }}</td>
+                <td>
+                    <div class="tooltip-wrapper">
+                        <span class="elipsis">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{ usuario.direccionPrincipal?.numeroCalle || '' }}</span>
+                        <span class="tooltiptext">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{ usuario.direccionPrincipal?.numeroCalle || '' }}</span>
+                    </div>
+                </td>
                 <td>{{ usuario.direccionesExtra ?? 0 }}</td>
                 <td>{{ usuario.esAdmin ? 'Sí' : 'No' }}</td>
 
