@@ -247,6 +247,21 @@ export class UserListComponent implements OnInit {
     await this.ngOnInit();
   }
 
+  async confirmarEliminar() {
+    var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
+    
+    if (!this.usuarioSeleccionado?.id || !resultado) {
+      return;
+    }
+
+    await this.userService.eliminarUsuario(
+      this.usuarioSeleccionado.id,
+      this.nickUsuario,
+      this.contrasena
+    );
+    await this.ngOnInit();
+  }
+
   async guardarDirecciones(direcciones: Direccion[]) {
 
     for (let direccion of direcciones) {
