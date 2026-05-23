@@ -11,8 +11,9 @@ html, body {
 h2 {
     display: inline-block;
     margin: 0;
-    font-size: 36px;  /* tamaño de fuente grande */
-    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;  /* tamaño de fuente grande */
+    color: rgb(231, 5, 5);
 }
 
 header {
