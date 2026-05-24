@@ -233,22 +233,32 @@ export class UserListComponent implements OnInit {
     await this.userService.editarUsuario(usuario, this.nickUsuario, this.contrasena);
   }
 
-  async eliminarUsuario() {
+async eliminarUsuario() {
 
-    var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
+  const resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
 
-    if (!this.usuarioSeleccionado?.id || !resultado) {
-      return;
-    }
+  if (!this.usuarioSeleccionado?.id || !resultado) {
+    return;
+  }
 
-    await this.userService.eliminarUsuario(
+  try {
+
+    console.log("Eliminando usuario:", this.usuarioSeleccionado.id);
+
+    const respuesta = await this.userService.eliminarUsuario(
       this.usuarioSeleccionado.id,
       this.nickUsuario,
       this.contrasena
     );
 
+    console.log("Respuesta servidor:", respuesta);
+
     await this.ngOnInit();
+
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
   }
+}
 
   async confirmarEliminar() {
     var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
