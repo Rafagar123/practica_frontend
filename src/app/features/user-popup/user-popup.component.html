@@ -3,19 +3,23 @@
     <div class="dialog-title">
         <h3 class="form-title">{{ mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}</h3>
     </div>
+
     <div class="form-control-table">
         <form (ngSubmit)="onSave()">
+
             <div class="form-row">
                 <div class="form-column">
                     <label for="nickUsuario">Usuario:</label>
                     <input class="form-control" type="text" id="nickUsuario" name="nickUsuario"
                         [(ngModel)]="user.nickUsuario">
                 </div>
+
                 <div class="form-column">
                     <label for="contrasena">Password:</label>
                     <input class="form-control" type="text" id="contrasena" name="contrasena"
                         [(ngModel)]="user.contrasena">
                 </div>
+
                 <div class="form-column">
                     <label for="fechaCreacion">Fecha de creación:</label>
                     <input class="form-control" type="text" id="fechaCreacion" name="fechaCreacion"
@@ -28,11 +32,13 @@
                     <label for="nombre">Nombre:</label>
                     <input class="form-control" type="text" id="nombre" name="nombre" [(ngModel)]="user.nombre">
                 </div>
+
                 <div class="form-column">
                     <label for="primerApellido">Primer apellido:</label>
                     <input class="form-control" type="text" id="primerApellido" name="primerApellido"
                         [(ngModel)]="user.primerApellido">
                 </div>
+
                 <div class="form-column">
                     <label for="segundoApellido">Segundo apellido:</label>
                     <input class="form-control" type="text" id="segundoApellido" name="segundoApellido"
@@ -46,6 +52,7 @@
                     <input class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento"
                         [(ngModel)]="user.fechaNacimiento">
                 </div>
+
                 <div class="form-column">
                     <label for="genero">Género:</label>
                     <select class="form-control" id="genero" name="genero" [(ngModel)]="user.genero"
@@ -53,6 +60,7 @@
                         <option *ngFor="let genero of generos" [ngValue]="genero">{{ genero.nombre }}</option>
                     </select>
                 </div>
+
                 <div class="form-column">
                     <label for="puestoDeTrabajo">Puesto de trabajo:</label>
                     <select class="form-control" id="puestoDeTrabajo" name="puestoDeTrabajo"
@@ -68,6 +76,7 @@
                     <input class="form-control" type="time" id="horaDesayuno" name="horaDesayuno"
                         [(ngModel)]="user.horaDesayuno">
                 </div>
+
                 <div class="form-column">
                     <label for="esAdmin">¿Es administrador?:</label>
                     <select class="form-control" id="esAdmin" name="esAdmin" [(ngModel)]="user.esAdmin">
@@ -78,40 +87,44 @@
             </div>
 
             <hr>
+
             <h3 class="form-title">Direcciones: </h3>
-            <div *ngIf="mode === 'create'                                               ">
+            <div *ngIf="mode === 'create'">
+
                 <div class="container-button">
                     <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>
                 </div>
-                <div *ngIf="mostrarCrear" class="form-row create-direccion-row">
 
+                <div *ngIf="mostrarCrear" class="form-row create-direccion-row">
                     <div class="form-column">
                         <label for="direccionPrincipal">Dirección principal:</label>
-                        <input type="checkbox" id="direccionPrincipal"
-                            [(ngModel)]="direccionCreadaEnEditar.direccionPrincipal" name="direccionPrincipal">
+                        <input type="checkbox" id="direccionPrincipal" [(ngModel)]="direccionCreada.direccionPrincipal"
+                            name="direccionPrincipal">
                     </div>
+
                     <div class="form-column">
                         <label for="nombreCalle">Nombre de la calle: </label>
                         <input class="form-control" type="text" id="nombreCalle" name="nombreCalle"
-                            [(ngModel)]="direccionCreadaEnEditar.nombreCalle">
+                            [(ngModel)]="direccionCreada.nombreCalle">
                     </div>
+
                     <div class="form-column">
                         <label for="numeroCalle">Número de la calle: </label>
                         <input class="form-control" type="text" id="numeroCalle" name="numeroCalle"
-                            [(ngModel)]="direccionCreadaEnEditar.numeroCalle">
+                            [(ngModel)]="direccionCreada.numeroCalle">
                     </div>
                 </div>
             </div>
 
-
-
             <div *ngIf="mode === 'edit'">
+
                 <div class="container-button">
                     <button type="button" class="main-button" (click)="muestraCrear()"> Crear </button>
                     <button type="button" class="main-button" (click)="editarDireccionSeleccionada()"> Editar </button>
                     <button type="button" class="main-button" (click)="borrarDireccionSeleccionada()"><img
                             src="assets/images/DeleteIcon.JPG" alt="eliminar" class="img-icon"></button>
                 </div>
+
                 <div class="table-container-overflow">
                     <table>
                         <thead>
@@ -122,49 +135,33 @@
                                 <th>Número</th>
                             </tr>
                         </thead>
+
                         <tbody id="table-body">
                             <tr *ngFor="let direccion of direcciones">
                                 <td>
-
                                     <input type="radio" name="direccionSeleccionada"
                                         [checked]="direccionSeleccionada === direccion"
                                         (change)="seleccionarDireccion(direccion)">
-
                                 </td>
-                                <td>
 
+                                <td>
                                     <input type="radio" name="direccionPrincipal" [value]="direccion.id"
                                         [checked]="direccion.direccionPrincipal"
                                         [disabled]="direccionEditandoId !== direccion.id"
                                         (change)="onPrincipalChange(direccion.id)">
-
                                 </td>
+
                                 <td>
-
-                                    <span *ngIf="!esDireccionEditando(direccion)">
-
-                                        {{ direccion.nombreCalle }}
-
-                                    </span>
-
+                                    <span *ngIf="!esDireccionEditando(direccion)"> {{ direccion.nombreCalle }} </span>
                                     <input *ngIf="esDireccionEditando(direccion)" type="text" class="form-control"
                                         [(ngModel)]="direccion.nombreCalle" [name]="'nombreCalle' + direccion.id">
-
                                 </td>
 
                                 <td>
-
-                                    <span *ngIf="!esDireccionEditando(direccion)">
-
-                                        {{ direccion.numeroCalle ?? '-' }}
-
-                                    </span>
-
+                                    <span *ngIf="!esDireccionEditando(direccion)"> {{ direccion.numeroCalle ?? '-' }} </span>
                                     <input *ngIf="esDireccionEditando(direccion)" type="number" class="form-control"
                                         [(ngModel)]="direccion.numeroCalle" [name]="'numeroCalle' + direccion.id">
-
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -173,17 +170,19 @@
                     <div class="form-column">
                         <label for="nombreCalle">Nombre de la calle: </label>
                         <input class="form-control" type="text" id="nombreCalle" name="nombreCalle"
-                            [(ngModel)]="direccionCreadaEnEditar.nombreCalle">
+                            [(ngModel)]="direccionCreada.nombreCalle">
                     </div>
+
                     <div class="form-column">
                         <label for="numeroCalle">Número de la calle: </label>
                         <input class="form-control" type="text" id="numeroCalle" name="numeroCalle"
-                            [(ngModel)]="direccionCreadaEnEditar.numeroCalle">
+                            [(ngModel)]="direccionCreada.numeroCalle">
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    
     <div class="container-button-right">
         <button type="button" (click)="onSave()" class="main-button">Aceptar</button>
         <button type="button" (click)="onCancel()" class="main-button">Cancelar</button>

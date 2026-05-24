@@ -23,7 +23,6 @@ export class LoginService {
                     {
                         params: params
                     }
-
                 )
                 .toPromise()
         )

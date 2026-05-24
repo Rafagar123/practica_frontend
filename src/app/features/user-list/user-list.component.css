@@ -102,9 +102,25 @@ tr:nth-child(even) {
   width: auto;
 }
 
+header {
+  background-color: rgb(113, 82, 82);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
 .container-button-right {
-  padding: 1rem 0rem;
-  float: right;
+  margin-left: auto;
+  display: block;
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container-button-right:hover {
+  background-color: #555;
 }
 
 .form-row {

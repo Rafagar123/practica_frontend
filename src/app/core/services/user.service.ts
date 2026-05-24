@@ -7,21 +7,12 @@ import ConstUrls from 'src/app/shared/contants/const-urls';
 import { firstValueFrom } from 'rxjs';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  /*async obtenerUsuarioPorId(id: number) {
-    return await to(
-      this.http
-        .get<Usuario>()
-        .toPromise()
-    )
-  }
-*/
   async obtenerUsuarios(nickUsuario: string, contrasena: string) {
     let params = new HttpParams()
       .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
@@ -236,7 +227,7 @@ export class UserService {
     }
   }
 
-    async eliminarDireccion(direccionId: number, nickUsuario: string, contrasena: string) {
+  async eliminarDireccion(direccionId: number, nickUsuario: string, contrasena: string) {
     let params = new HttpParams()
       .set(ConstUrls.NICK_USUARIO_PARAM, nickUsuario)
       .set(ConstUrls.PASS_USUARIO_PARAM, contrasena);
@@ -252,7 +243,7 @@ export class UserService {
     )
   }
 
-   async crearDireccion(body: Direccion, nickUsuario: string, contrasena: string) {
+  async crearDireccion(body: Direccion, nickUsuario: string, contrasena: string) {
     try {
 
       const params = new HttpParams()
@@ -275,6 +266,7 @@ export class UserService {
     } catch (error) {
       console.error('ERROR COMPLETO:', error);
       throw error;
-    }}
+    }
+  }
 
 }

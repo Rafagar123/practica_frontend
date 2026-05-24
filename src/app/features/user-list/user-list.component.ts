@@ -14,6 +14,7 @@ import { Direccion } from 'src/app/core/models/direccion.model';
   standalone: true,
   imports: [CommonModule, UserPopupComponent, FormsModule]
 })
+
 export class UserListComponent implements OnInit {
   @Output() cerrarPopUpOk = new EventEmitter<void>();
   @Output() cerrarPopUpCancel = new EventEmitter<void>();
@@ -21,16 +22,14 @@ export class UserListComponent implements OnInit {
   userService: UserService;
   nickUsuario: string = '';
   contrasena: string = '';
-  usuarios: Usuario[] = [];
+
   direcciones: Direccion[] = [];
-
-
-  modoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
-  anteriorModoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
+  usuarios: Usuario[] = [];
   popupUser: Usuario | null = null;
   usuarioSeleccionado: Usuario | null = null;
 
-
+  modoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
+  anteriorModoPopup: 'create' | 'edit' | 'CLOSED' = 'CLOSED';
 
   constructor(private router: Router, userService: UserService) {
     this.userService = userService;
@@ -139,6 +138,10 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  volverLogin() {
+    this.router.navigate(['/login']);
+  }
+
   calcularEdad(fechaNacimiento: string | null): number {
     const hoy = new Date();
     const nacimiento = fechaNacimiento ? new Date(fechaNacimiento) : hoy;
@@ -160,8 +163,6 @@ export class UserListComponent implements OnInit {
       }
     }
   }
-
-
 
   onCerrarPopUpOk() {
     this.modoPopup = 'CLOSED';
@@ -198,30 +199,31 @@ export class UserListComponent implements OnInit {
     const usuario = data.usuario;
     const direcciones = data.direcciones;
     const idBorrar = data.idBorrar;
-    const direccionCreadaEnEditar = data.direccionCreadaEnEditar;
+    const direccionCreada = data.direccionCreada;
 
     if (this.anteriorModoPopup === 'create') {
       const usuarioCreado = await this.crearUsuario(usuario);
       if (usuarioCreado.id != null) {
         await this.crearDireccion(
-          direccionCreadaEnEditar,
+          direccionCreada,
           usuarioCreado.id
         );
       }
-    } else if (this.anteriorModoPopup === 'edit'){
+    } else if (this.anteriorModoPopup === 'edit') {
       await this.editarUsuario(usuario);
       await this.guardarDirecciones(direcciones);
       await this.eliminarDireccion(idBorrar);
-      await this.crearDireccion(direccionCreadaEnEditar, usuario.id);
+      await this.crearDireccion(direccionCreada, usuario.id);
     }
     this.modoPopup = 'CLOSED';
+
     await this.ngOnInit();
   }
 
   async crearUsuario(usuario: Usuario): Promise<Usuario> {
     console.log('Crear usuario:', usuario);
-
     const usuarioCreado = await this.userService.crearUsuario(usuario, this.nickUsuario, this.contrasena);
+
     return usuarioCreado;
   }
 
@@ -234,7 +236,7 @@ export class UserListComponent implements OnInit {
   async eliminarUsuario() {
 
     var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
-    
+
     if (!this.usuarioSeleccionado?.id || !resultado) {
       return;
     }
@@ -244,12 +246,13 @@ export class UserListComponent implements OnInit {
       this.nickUsuario,
       this.contrasena
     );
+
     await this.ngOnInit();
   }
 
   async confirmarEliminar() {
     var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
-    
+
     if (!this.usuarioSeleccionado?.id || !resultado) {
       return;
     }
@@ -259,6 +262,7 @@ export class UserListComponent implements OnInit {
       this.nickUsuario,
       this.contrasena
     );
+
     await this.ngOnInit();
   }
 
@@ -279,41 +283,43 @@ export class UserListComponent implements OnInit {
     if (idBorrar === null) {
       return;
     }
+
     await this.userService.eliminarDireccion(
       idBorrar,
       this.nickUsuario,
       this.contrasena
     );
+
     await this.ngOnInit();
   }
 
-  async crearDireccion(direccionCreadaEnEditar: Direccion | null, usuarioId: number) {
-    console.log('Direccion recibida:', direccionCreadaEnEditar);
+  async crearDireccion(direccionCreada: Direccion | null, usuarioId: number) {
+    console.log('Direccion recibida:', direccionCreada);
     console.log('Usuario ID:', usuarioId);
 
-    if (direccionCreadaEnEditar === null) {
+    if (direccionCreada === null) {
       return;
     }
 
     if (this.anteriorModoPopup === 'edit' && usuarioId) {
       await this.userService.crearDireccion(
-        direccionCreadaEnEditar,
+        direccionCreada,
         this.nickUsuario,
         this.contrasena
       );
     }
 
     if (this.anteriorModoPopup === 'create') {
-      direccionCreadaEnEditar.usuarioId = usuarioId;
+      direccionCreada.usuarioId = usuarioId;
       await this.userService.crearDireccion(
-        direccionCreadaEnEditar,
+        direccionCreada,
         this.nickUsuario,
         this.contrasena
       );
     }
 
     await this.ngOnInit();
-    
   }
+
 }
 

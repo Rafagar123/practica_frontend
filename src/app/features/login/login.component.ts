@@ -25,14 +25,12 @@ export class LoginComponent {
 
   constructor(private router: Router, loginService: LoginService) {
     this.loginService = loginService;
-    // @TODO: Implementar el constructor
-
   }
 
   async login() {
     console.log("Login button clicked");
     let result = await this.loginService.iniciarSesion(this.nickUsuario, this.contrasena);
-    if(result === true){
+    if (result === true) {
       console.log("Login successful");
       localStorage.setItem('nickUsuario', this.nickUsuario);
       localStorage.setItem('contrasena', this.contrasena);
@@ -44,5 +42,4 @@ export class LoginComponent {
     console.log("Login result:", result);
   }
 
-  // @TODO: Implementar métodos, atributos, etc. necesarios para el funcionamiento del login
 }

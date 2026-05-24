@@ -14,6 +14,7 @@ import { Direccion } from 'src/app/core/models/direccion.model';
     standalone: true,
     imports: [CommonModule, FormsModule]
 })
+
 export class UserPopupComponent implements OnInit {
 
     @Input() mode: 'create' | 'edit' = 'create';
@@ -31,7 +32,7 @@ export class UserPopupComponent implements OnInit {
     direccionBorrandoId: number | null = null;
     selectedDireccionPrincipalId: number | null = null;
     mostrarCrear = false;
-    direccionCreadaEnEditar: Direccion | null = null;
+    direccionCreada: Direccion | null = null;
 
 
     constructor(userService: UserService) {
@@ -54,7 +55,7 @@ export class UserPopupComponent implements OnInit {
             usuario: this.user,
             direcciones: this.direcciones,
             idBorrar: this.direccionBorrandoId,
-            direccionCreadaEnEditar: this.direccionCreadaEnEditar
+            direccionCreada: this.direccionCreada
         };
         this.save.emit(payload);
         this.cerrarPopUpOk.emit();
@@ -159,10 +160,10 @@ export class UserPopupComponent implements OnInit {
     muestraCrear(): void {
         this.mostrarCrear = !this.mostrarCrear;
 
-        if (this.mostrarCrear && !this.direccionCreadaEnEditar) {
+        if (this.mostrarCrear && !this.direccionCreada) {
 
             if (this.mode === 'edit' && this.user.id) {
-                this.direccionCreadaEnEditar = {
+                this.direccionCreada = {
                     id: 0,
                     nombreCalle: '',
                     numeroCalle: 0,
@@ -170,7 +171,7 @@ export class UserPopupComponent implements OnInit {
                     usuarioId: this.user.id
                 }
             } if (this.mode === 'create') {
-                this.direccionCreadaEnEditar = {
+                this.direccionCreada = {
                     id: 0,
                     nombreCalle: '',
                     numeroCalle: 0,

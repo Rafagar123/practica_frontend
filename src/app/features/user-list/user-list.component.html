@@ -1,17 +1,23 @@
 <app-user-popup *ngIf="modoPopup !== 'CLOSED'" [mode]="modoPopup" [user]="popupUser" (save)="onUserSave($event)"
     (cerrarPopUpOk)="onCerrarPopUpOk()" (cerrarPopUpCancel)="onCerrarPopUpCancel()">
 </app-user-popup>
-<div class="container-button">
 
+<header>
+    <div>
+        <button (click)="volverLogin()" class="container-button-right">Log Out</button>
+    </div>
+</header>
+
+<div class="container-button">
     <button type="button" (click)="openCreatePopup()" class="main-button">Crear usuario</button>
     <button type="button" [disabled]="!usuarioSeleccionado" (click)="openEditPopupSelected()" class="main-button">Editar
         usuario</button>
     <button type="button" [disabled]="!usuarioSeleccionado" class="button main-button-icon"
         (click)="confirmarEliminar()"><img src="assets/images/DeleteIcon.JPG" alt="eliminar" class="img-icon"></button>
 </div>
+
 <div class="table-container-overflow">
     <table>
-
         <thead>
             <tr>
                 <th></th>
@@ -25,14 +31,12 @@
                 <th>Direccion principal</th>
                 <th>Direcciones extra</th>
                 <th>¿Es administrador?</th>
-
             </tr>
         </thead>
 
         <tbody id="table-body">
             <tr *ngFor="let usuario of usuarios" [class.selected]="usuarioSeleccionado === usuario">
-                <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario">
-                </td>
+                <td><input type="radio" name="usuarioSeleccionado" [(ngModel)]="usuarioSeleccionado" [value]="usuario"></td>
                 <td><img [src]="usuario.icono" class="img-gender"></td>
                 <td>{{ usuario.nickUsuario }}</td>
                 <td>{{ usuario.primerApellido }} {{ usuario.segundoApellido }}, {{ usuario.nombre }}</td>
@@ -42,16 +46,15 @@
                 <td>{{ usuario.puestoDeTrabajo?.nombre || 'Sin puesto' }}</td>
                 <td>
                     <div class="tooltip-wrapper">
-                        <span class="elipsis">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{ usuario.direccionPrincipal?.numeroCalle || '' }}</span>
-                        <span class="tooltiptext">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{ usuario.direccionPrincipal?.numeroCalle || '' }}</span>
+                        <span class="elipsis">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{
+                            usuario.direccionPrincipal?.numeroCalle || '' }}</span>
+                        <span class="tooltiptext">{{ usuario.direccionPrincipal?.nombreCalle || 'Sin dirección' }}, {{
+                            usuario.direccionPrincipal?.numeroCalle || '' }}</span>
                     </div>
                 </td>
                 <td>{{ usuario.direccionesExtra ?? 0 }}</td>
                 <td>{{ usuario.esAdmin ? 'Sí' : 'No' }}</td>
-
-
             </tr>
         </tbody>
-
     </table>
 </div>
