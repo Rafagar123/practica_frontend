@@ -1,5 +1,5 @@
 <app-user-popup *ngIf="modoPopup !== 'CLOSED'" [mode]="modoPopup" [user]="popupUser" (save)="onUserSave($event)"
-    (cerrarPopUpOk)="onCerrarPopUpOk()" (cerrarPopUpCancel)="onCerrarPopUpCancel()">
+    (cerrarPopUpOk)="onCerrarPopup()" (cerrarPopUpCancel)="onCerrarPopup()">
 </app-user-popup>
 
 <header>

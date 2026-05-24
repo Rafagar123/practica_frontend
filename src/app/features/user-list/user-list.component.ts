@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { UserPopupComponent } from '../user-popup/user-popup.component';
@@ -16,9 +16,6 @@ import { Direccion } from 'src/app/core/models/direccion.model';
 })
 
 export class UserListComponent implements OnInit {
-  @Output() cerrarPopUpOk = new EventEmitter<void>();
-  @Output() cerrarPopUpCancel = new EventEmitter<void>();
-
   userService: UserService;
   nickUsuario: string = '';
   contrasena: string = '';
@@ -164,16 +161,8 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  onCerrarPopUpOk() {
+  onCerrarPopup() {
     this.modoPopup = 'CLOSED';
-  }
-
-  onCerrarPopUpCancel() {
-    this.modoPopup = 'CLOSED';
-  }
-
-  launchPopup() {
-    this.openCreatePopup();
   }
 
   openCreatePopup() {
@@ -232,33 +221,6 @@ export class UserListComponent implements OnInit {
     console.log('Modificar usuario:', usuario);
     await this.userService.editarUsuario(usuario, this.nickUsuario, this.contrasena);
   }
-
-async eliminarUsuario() {
-
-  const resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
-
-  if (!this.usuarioSeleccionado?.id || !resultado) {
-    return;
-  }
-
-  try {
-
-    console.log("Eliminando usuario:", this.usuarioSeleccionado.id);
-
-    const respuesta = await this.userService.eliminarUsuario(
-      this.usuarioSeleccionado.id,
-      this.nickUsuario,
-      this.contrasena
-    );
-
-    console.log("Respuesta servidor:", respuesta);
-
-    await this.ngOnInit();
-
-  } catch (error) {
-    console.error("Error al eliminar usuario:", error);
-  }
-}
 
   async confirmarEliminar() {
     var resultado = confirm("¿Estás seguro de que deseas eliminar este usuario?");
